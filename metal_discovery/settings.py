@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'metal_discovery_db',
-        'USER': 'Scotty Peterson',
-        'PASSWORD': '#03Keenesrd',
+        'USER': 'scotty',
+        'PASSWORD': '03Keenesrd',
         'HOST': 'localhost',
         'PORT': '5432',
     }
