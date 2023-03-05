@@ -81,8 +81,6 @@ DATABASES = {
         'NAME': 'metal_discovery_db',
         'USER': 'scotty',
         'PASSWORD': '03Keenesrd',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
 
