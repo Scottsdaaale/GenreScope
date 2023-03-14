@@ -1,9 +1,7 @@
 from django.urls import path
-# from .views import get_genres
-from .views import hello, search_spotify
+from .views import search_spotify, genres
 
 urlpatterns = [
-    # path('genres/', get_genres, name='genres'),
-    path('hello/', hello, name='hello'),
     path('search/', search_spotify, name='search'),
+    path('genres/', genres, name='genres')
 ]
