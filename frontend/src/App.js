@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const [data, setData] = useState("")
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/genres/")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        // do something with the data here
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  console.log(data)
+
+  return <div className="App"></div>;
 }
 
 export default App;
+
+
+//https://www.youtube.com/watch?v=_iOGtzRXwhI
