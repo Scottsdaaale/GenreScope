@@ -14,15 +14,10 @@ function Genres() {
 
   function handleClick(genre) {
     setClickedGenre(genre);
-    console.log(genre)
     const query_params = {
-      q: genre,
-      type: "artist",
-      market: "US",
-      limit: 50,
-      include_external: "audio",
+      genre: genre,
     };
-
+  
     fetch("http://localhost:8000/api/search/", {
       method: "POST",
       headers: {
