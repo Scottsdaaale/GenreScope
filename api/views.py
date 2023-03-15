@@ -2,7 +2,7 @@ import requests
 from django.http import HttpResponse
 import requests
 from django.http import JsonResponse
-from .metal_genres import metal_genres
+from .metal_genres import filtered_metal_genres
 from .oauth import access_token
 
 def search_spotify(request):
@@ -52,4 +52,4 @@ def search_spotify(request):
 
 
 def genres(request):
-    return JsonResponse(metal_genres)
+    return JsonResponse(filtered_metal_genres)
