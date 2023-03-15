@@ -13,4 +13,4 @@ for genre in metal_genres['genres']:
         
 filtered_metal_genres = {'genres': filtered_genres}
 
-print(filtered_genres)
+# print(filtered_genres)
