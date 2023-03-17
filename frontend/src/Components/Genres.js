@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { csrftoken } from '../csrf';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
@@ -17,14 +18,20 @@ function Genres() {
     const query_params = {
       genre: genre,
     };
+    console.log(query_params);
+
+    // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   
     fetch("http://localhost:8000/api/search/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'X-CSRFToken': csrftoken,
+        
       },
       body: JSON.stringify(query_params),
     })
+    
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
