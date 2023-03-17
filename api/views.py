@@ -1,11 +1,12 @@
 import requests
 from django.http import HttpResponse, JsonResponse
+import json
 from .metal_genres import metal_genres
 from .oauth import access_token
 
 def search_spotify(request):
     if request.method == "POST":
-        data = request.json() # Assuming that the frontend sends JSON data
+        data = json.loads(request.body) 
         genre = data.get("genre")
         print(genre)
         query_params = {
