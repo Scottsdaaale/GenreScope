@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { csrftoken } from '../csrf';
+// import { csrftoken } from '../csrf';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
@@ -7,7 +7,7 @@ function Genres() {
   const [type, setType] = useState("")
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/genres/")
+    fetch("/api/genres/")
       .then((response) => response.json())
       .then((data) => setGenres(data.genres))
       .catch((error) => console.log(error));
@@ -22,7 +22,7 @@ function Genres() {
 
     // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   
-    fetch("http://localhost:8000/api/search/", {
+    fetch("/api/search/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
