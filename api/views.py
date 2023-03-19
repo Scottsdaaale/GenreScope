@@ -1,6 +1,7 @@
 import requests
 from django.http import HttpResponse, JsonResponse
 import json
+from django.middleware.csrf import get_token
 from .metal_genres import metal_genres
 from .oauth import access_token
 
@@ -63,3 +64,9 @@ def search_spotify(request):
 
 def genres(request):
     return JsonResponse(metal_genres)
+
+def csrf(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
+def ping(request):
+    return JsonResponse({'result': 'OK'})
