@@ -55,6 +55,13 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    
+]
+
+API_ALLOWED_HOSTS = ['http://localhost:3000']
+
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 
 ROOT_URLCONF = 'metal_discovery.urls'
