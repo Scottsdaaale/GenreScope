@@ -12,5 +12,5 @@ function getCookie(name) {
     }
     return cookieValue;
   }
-  
+  // console.log(getCookie('csrftoken'))
   export const csrftoken = getCookie('csrftoken');
