@@ -65,8 +65,11 @@ def search_spotify(request):
 def genres(request):
     return JsonResponse(metal_genres)
 
-def csrf(request):
-    return JsonResponse({'csrfToken': get_token(request)})
+# def csrf(request):
+#     return JsonResponse({'csrfToken': get_token(request)})
 
-def ping(request):
-    return JsonResponse({'result': 'OK'})
+# def ping(request):
+#     return JsonResponse({'result': 'OK'})
+
+# def get_csrf_token(request):
+#     return JsonResponse({'csrfToken': request.COOKIES['csrftoken']})
