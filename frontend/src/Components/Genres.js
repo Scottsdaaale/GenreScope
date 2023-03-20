@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 
 function Genres() {
   const [genres, setGenres] = useState([]);
-  const [clickedGenre, setClickedGenre] = useState("");
-  const [type, setType] = useState("")
+  // const [clickedGenre, setClickedGenre] = useState("");
+  const [type, setType] = useState("");
 
   useEffect(() => {
     fetch("/api/genres/")
@@ -14,27 +14,21 @@ function Genres() {
   }, []);
 
   function handleClick(genre) {
-    setClickedGenre(genre);
+    // setClickedGenre(genre);
     const query_params = {
       genre: genre,
     };
     console.log(query_params);
-
-    // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  
     fetch("/api/search/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'X-CSRFToken': csrftoken,
-        
+        "X-CSRFToken": "",
       },
       body: JSON.stringify(query_params),
     })
-    
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      .then((data) => console.log(data));
   }
 
   return (
