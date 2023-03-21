@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+import Artists from "./Artists";
 // import { csrftoken } from '../csrf';
 
 function Genres() {
@@ -36,12 +38,8 @@ function Genres() {
       <div className="genre-list-container">
         <ul className="genre-list">
           {genres.map((genre) => (
-            <li
-              className="genre"
-              onClick={() => handleClick(genre)}
-              key={genre}
-            >
-              {genre}
+            <li className="genre" key={genre}>
+              {/* <Link to={`/genres/${genre}`}>{genre}</Link> */}
             </li>
           ))}
         </ul>
