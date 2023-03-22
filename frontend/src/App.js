@@ -1,12 +1,14 @@
 import "./App.css";
-import Genres from "./Components/Genres";
-// import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
-
-
+import Genres from "./Components/Genres"
+import Artists from "./Components/Artists"
+import { Routes, Route} from "react-router-dom"
 
 function App() {
   return (
-   <div><Genres/></div>
+    <Routes>
+      <Route path='/' element= {<Genres/>}/>
+      <Route path= '/genres/:genre' element= {<Artists/>}/>
+    </Routes>
   );
 }
 
