@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Artists from "./Artists";
 // import { csrftoken } from '../csrf';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
-  // const [clickedGenre, setClickedGenre] = useState("");
-  const [type, setType] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/api/genres/")
@@ -16,11 +16,9 @@ function Genres() {
   }, []);
 
   function handleClick(genre) {
-    // setClickedGenre(genre);
     const query_params = {
       genre: genre,
     };
-    console.log(query_params);
     fetch("/api/search/", {
       method: "POST",
       headers: {
@@ -30,7 +28,11 @@ function Genres() {
       body: JSON.stringify(query_params),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        setSearchResult(data);
+        // pass searchResult as state to the Link component
+        navigate(`/genres/${genre}`, { state: { searchResult: data } });
+      });
   }
 
   return (
@@ -38,16 +40,17 @@ function Genres() {
       <div className="genre-list-container">
         <ul className="genre-list">
           {genres.map((genre) => (
-            <li className="genre" key={genre}>
-              {/* <Link to={`/genres/${genre}`}>{genre}</Link> */}
+            <li className="genre" key={genre} onClick={() => handleClick(genre)}>
+              <Link to={`/genres/${genre}`}>{genre}</Link> 
+              {/* {genre} */}
             </li>
           ))}
         </ul>
       </div>
+      <Artists searchResult={searchResult} />
     </div>
   );
 }
 
 export default Genres;
-
 //need to make post requests for every q param
