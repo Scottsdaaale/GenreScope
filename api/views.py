@@ -1,7 +1,7 @@
 import requests
-from django.http import HttpResponse, JsonResponse
 import json
-from django.middleware.csrf import get_token
+from django.http import HttpResponse, JsonResponse
+# from django.middleware.csrf import get_token
 from .metal_genres import metal_genres
 from .oauth import access_token
 
