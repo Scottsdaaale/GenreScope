@@ -1,37 +1,49 @@
-import React, { useState, useEffect } from "react";
+// function Artists(props) {
+//   const searchResult = props.location.state.searchResult;
+//   console.log(searchResult);
+//   if (!searchResult) {
+//     return <p>No search results to display.</p>;
+//   }
+//   return (
+//     <div>
+//       <h2>Artists</h2>
+//       {searchResult.length > 0 ? (
+//         searchResult.map((artist) => (
+//           <div key={artist.id}>
+//             <h3>{artist.name}</h3>
+//             <p>{artist.popularity}</p>
+//             <ul>
+//               {artist.top_tracks.map((track) => (
+//                 <li key={track.id}>{track.name}</li>
+//               ))}
+//             </ul>
+//           </div>
+//         ))
+//       ) : (
+//         <p>No search results to display.</p>
+//       )}
+//     </div>
+//   );
+// }
 
-function GenreContent({ genre }) {
-  const [artists, setArtists] = useState([]);
+// export default Artists;
+import React from "react";
 
-  useEffect(() => {
-    fetch(`/api/search/?genre=${genre}`)
-      .then((response) => response.json())
-      .then((data) => setArtists(data.artists))
-      .catch((error) => console.log(error));
-  }, [genre]);
-
+function Artists({ searchResult }) {
+  console.log(searchResult);
   return (
     <div>
-      <h2>{genre}</h2>
-      <ul>
-        {artists.map((artist) => (
-          <li key={artist.id}>
-            <h3>{artist.name}</h3>
-            <p>{artist.popularity}</p>
-            <ul>
-              {artist.top_tracks.map((track) => (
-                <li key={track.id}>
-                  <a href={track.preview_url} target="_blank" rel="noreferrer">
-                    {track.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {searchResult && searchResult.artists.length > 0 ? (
+        <ul>
+          {searchResult.artists.map((artist) => (
+            <li key={artist.id}>{artist.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No artists found</p>
+      )}
     </div>
   );
 }
 
-export default GenreContent;
+export default Artists;
