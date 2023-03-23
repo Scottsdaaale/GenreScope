@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Artists from "./Artists";
 // import { csrftoken } from '../csrf';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/api/genres/")
@@ -28,12 +27,9 @@ function Genres() {
       body: JSON.stringify(query_params),
     })
       .then((response) => response.json())
-      .then((data) => {
-        setSearchResult(data);
-        // pass searchResult as state to the Link component
-        navigate(`/genres/${genre}`, { state: { searchResult: data } });
-      });
+      .then((data) => setSearchResult(data));
   }
+ 
 
   return (
     <div>
@@ -42,7 +38,7 @@ function Genres() {
           {genres.map((genre) => (
             <li className="genre" key={genre} onClick={() => handleClick(genre)}>
               <Link to={`/genres/${genre}`}>{genre}</Link> 
-              {/* {genre} */}
+              {genre}
             </li>
           ))}
         </ul>
