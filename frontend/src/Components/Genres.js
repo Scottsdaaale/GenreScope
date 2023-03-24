@@ -38,7 +38,6 @@ function Genres() {
           {genres.map((genre) => (
             <li className="genre" key={genre} onClick={() => handleClick(genre)}>
               <Link to={`/genres/${genre}`}>{genre}</Link> 
-              {genre}
             </li>
           ))}
         </ul>
