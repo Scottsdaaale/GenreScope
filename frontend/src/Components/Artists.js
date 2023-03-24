@@ -33,15 +33,6 @@ function Artists({ searchResult }) {
   console.log(searchResult);
   return (
     <div>
-      {searchResult && searchResult.artists.length > 0 ? (
-        <ul>
-          {searchResult.artists.map((artist) => (
-            <li key={artist.id}>{artist.name}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No artists found</p>
-      )}
     </div>
   );
 }
