@@ -6,8 +6,8 @@ import { Routes, Route} from "react-router-dom"
 function App() {
   return (
     <Routes>
-      <Route path='/' element= {<Genres/>}/>
-      <Route path= '/genres/:genre' element= {<Artists/>}/>
+      <Route path='/' element={<Genres />} />
+      <Route path='/genres/:genre' element={<Artists />} />
     </Routes>
   );
 }
