@@ -14,7 +14,7 @@ def search_spotify(request):
             "q": genre,
             "type": "artist",
             "market": "US",
-            "limit": 1,
+            "limit": 50,
             "include_external": "audio",
         }
 
