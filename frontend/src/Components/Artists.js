@@ -2,23 +2,33 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 function Artists() {
-  const location = useLocation()
-  const artist = location.state.data.artists[0]
-  console.log(artist)
-  const topTrackName = artist.top_tracks[0].name
-  const topTrack = artist.top_tracks[0].preview_url
-  console.log(location.state.data)
+  const location = useLocation();
+  const artists = location.state.data.artists;
+
+  // create an array of artist popularity values
+  // const popularityList = artists.map((artist) => artist.popularity);
+
+  // // sort the popularity list in descending order
+  // popularityList.sort((a, b) => b - a);
 
   return (
     <div>
-      <h1>{artist.name}</h1>
-      <h2>{topTrackName}</h2>
-      <audio controls>
-        <source src={topTrack} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      {artists.map((artist) => (
+        <div key={artist.id}>
+          <h1>{artist.name}</h1>
+          <p>Popularity: {artist.popularity}</p>
+          {artist.top_tracks.map((track) => (
+            <div key={track.id}>
+              <h2>{track.name}</h2>
+              <audio controls>
+                <source src={track.preview_url} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
-
   );
 }
 
