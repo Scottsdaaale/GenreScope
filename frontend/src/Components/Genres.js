@@ -17,7 +17,7 @@ function Genres() {
     const query_params = {
       genre: genre,
     };
-    fetch("/api/search/", {
+    fetch("/api/artists/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
