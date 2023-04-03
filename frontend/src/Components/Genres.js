@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { csrftoken } from '../csrf';
 
 function Genres() {
@@ -31,7 +31,6 @@ function Genres() {
         navigate(`/genres/${genre}`, { state: { data } });
       });
   }
-  
 
   return (
     <div>
@@ -43,17 +42,11 @@ function Genres() {
               key={genre}
               onClick={() => handleClick(genre)}
             >
-              {/* <Link
-                to={{pathname: `/genres/${genre}`}}
-              >
-                {genre}
-              </Link> */}
               {genre}
             </li>
           ))}
         </ul>
       </div>
-      {/* <Artists searchResult={searchResult} /> */}
     </div>
   );
 }
