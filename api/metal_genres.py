@@ -2,7 +2,7 @@ metal_genres = {'genres': ['aarhus indie', 'aberdeen indie', 'abstract idm', 'ac
 
 # metal_genres = {'genres': ['dirt', 'wavepunk' 'pop punk']}
 
-unwanted_words = ['rock', 'indie', 'worship', 'idm', 'bass', 'pop', 'experimental', 'adoracao', 'wave', 'dance', 'gaze', 'trance', 'tech', 'psych', 'altidol', 'anime', 'rave', 'praise', 'raw', 'yaoi', "yuri", "zeuhl", "zolo", 'bagpipe', 'blues', 'gospel', 'chill','adoracion', 'musica', 'club', ]
+unwanted_words = ['rock', 'indie', 'worship', 'idm', 'bass', 'pop', 'experimental', 'adoracao', 'wave', 'dance', 'gaze', 'trance', 'tech', 'psych', 'altidol', 'anime', 'rave', 'praise', 'raw', 'yaoi', "yuri", "zeuhl", "zolo", 'bagpipe', 'blues', 'gospel', 'chill','adoracion', 'musica', 'club', 'hardstyle' ]
 
 wanted_words = ['metal', 'punk', 'hardcore', 'djent', 'emo', 'metalcore', 'straight edge', 'death', 'noise','grind', 'sludge', 'doom']
 
@@ -22,6 +22,6 @@ metal_genres['genres'] = cleaned_genres
 
 print(metal_genres)
 num_genres = len(metal_genres['genres'])
-print(f"Number of genres: {num_genres}")
+# print(f"Number of genres: {num_genres}")
 
 # troublesome words 'folk, prog,'
