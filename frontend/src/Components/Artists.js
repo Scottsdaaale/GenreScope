@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
+
 
 function Artists() {
   const location = useLocation();
   const artists = location.state.data.artists;
+  const navigate = useNavigate();
   console.log(artists);
 
   const [topTracks, setTopTracks] = useState({});
@@ -19,7 +21,12 @@ function Artists() {
       body: JSON.stringify({ artist_id: artist.id }),
     })
       .then((response) => response.json())
-      .then((data) =>{ console.log(data); setTopTracks({...topTracks, [artist.id]: data.tracks})});
+      .then((data) =>{
+        console.log(data);
+        // setTopTracks({...topTracks, [artist.id]: data.tracks})
+        navigate(`/artists/${artist.name}`, { state: { data } });
+        });
+
   }
   console.log(topTracks)
 
@@ -30,7 +37,8 @@ function Artists() {
           <img src= {artist.image_url} alt={artist.name}/>
           <h1 onClick={() => handleClick(artist)}>{artist.name}</h1>
           <p>Popularity: {artist.popularity}</p>
-          {topTracks[artist.id] && (
+          <p>Genres: {artist.genres}</p>
+          {/* {topTracks[artist.id] && (
             <ul>
               {topTracks[artist.id].map((track) => (
                 <li key={track.id}>
@@ -47,7 +55,7 @@ function Artists() {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
         </div>
       ))}
     </div>
