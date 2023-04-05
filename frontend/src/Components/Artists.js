@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate} from "react-router-dom";
+// import Videos from "./Videos";
 
 
 function Artists() {
@@ -24,7 +25,7 @@ function Artists() {
       .then((data) =>{
         console.log(data);
         // setTopTracks({...topTracks, [artist.id]: data.tracks})
-        navigate(`/artists/${artist.name}`, { state: { data } });
+        navigate(`/${artist.name}`, { state: { data } });
         });
 
   }
@@ -32,32 +33,16 @@ function Artists() {
 
   return (
     <div>
+      <div>fuck you</div>
       {artists.map((artist) => (
         <div key={artist.id}>
           <img src= {artist.image_url} alt={artist.name}/>
           <h1 onClick={() => handleClick(artist)}>{artist.name}</h1>
           <p>Popularity: {artist.popularity}</p>
-          <p>Genres: {artist.genres}</p>
-          {/* {topTracks[artist.id] && (
-            <ul>
-              {topTracks[artist.id].map((track) => (
-                <li key={track.id}>
-                  {track.name}
-                  {track.preview_url && (
-                    <audio controls>
-                      <source src={track.preview_url} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  )}
-                  {!track.preview_url && (
-                    <p>No preview available.</p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )} */}
+          <p>Genres:{artist.genres}</p>
         </div>
       ))}
+      {/* <Videos/> */}
     </div>
   );
 }
