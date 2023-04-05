@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import genres, search_artists, search_top_tracks
+from .views import genres, search_artists, search_top_tracks, search_playlists, search_tracks
 # csrf , 
 # ping, 
 # get_csrf_token
@@ -9,6 +9,8 @@ urlpatterns = [
     path('artists/', search_artists, name='artists'),
     path('tracks/', search_top_tracks, name='tracks'),
     path('genres/', genres, name='genres'),
+    path('playlists/', search_playlists, name='playlists'),
+    path('tracks/', search_tracks, name='genres'),
     # path('csrf/', csrf, name='csrf'),
     # path('ping/', ping, name='ping'),
     # path('get_csrf_token/', get_csrf_token, name='get_csrf_token'),
