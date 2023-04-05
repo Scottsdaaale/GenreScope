@@ -28,7 +28,7 @@ function Genres() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        navigate(`/genres/${genre}`, { state: { data } });
+        navigate(`/${genre}`, { state: { data } });
       });
   }
 
