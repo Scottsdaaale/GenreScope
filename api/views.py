@@ -121,12 +121,84 @@ def search_top_tracks(request):
             return HttpResponse("Top tracks search failed.")
     else:
         return HttpResponse("Invalid request method")
+    
+def search_playlists(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        query = data.get("query")
+        headers = {"Authorization": f"Bearer {access_token}"}
+        query_params = {
+            "q": query,
+            "type": "playlist",
+            "market": "US",
+            "limit": 50,
+        }
+        response = requests.get(
+            "https://api.spotify.com/v1/search", headers=headers, params=query_params
+        )
+        if response.status_code == 200:
+            results = response.json()
+            playlists = results["playlists"]["items"]
+            response_data = {"total": results["playlists"]["total"], "playlists": []}
+            for playlist in playlists:
+                playlist_data = {
+                    "name": playlist["name"],
+                    "id": playlist["id"],
+                    "image_url": playlist["images"][0]["url"] if playlist["images"] else None,
+                    "owner": playlist["owner"]["display_name"] if playlist["owner"] else None,
+                    "tracks": playlist["tracks"]["total"] if playlist["tracks"] else 0,
+                }
+                response_data["playlists"].append(playlist_data)
+            response_data["total"] = min(len(response_data["playlists"]), 50)
+            return JsonResponse(response_data)
+        else:
+            print(f"Request failed with status code {response.status_code}")
+            return HttpResponse("Search failed.")
+    else:
+        return HttpResponse("Invalid request method")
 
+def search_tracks (request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        track = data.get("track")
+        query_params = {
+            "q": track,
+            "type": "track",
+            "market": "US",
+            "limit": 50,
+        }
+        headers = {"Authorization": f"Bearer {access_token}"}
+        response = requests.get(
+            "https://api.spotify.com/v1/search", headers=headers, params=query_params
+        )
+        if response.status_code == 200:
+            results = response.json()
+            tracks = results["tracks"]["items"]
+            response_data = {"total": results["tracks"]["total"], "tracks": []}
+            for track in tracks:
+                track_data = {
+                    "name": track["name"],
+                    "id": track["id"],
+                    "album": track["album"]["name"],
+                    "album_id": track["album"]["id"],
+                    "artists": [{"name": artist["name"], "id": artist["id"]} for artist in track["artists"]],
+                    "duration_ms": track["duration_ms"],
+                }
+                response_data["tracks"].append(track_data)
+                if len(response_data["tracks"]) == 50:
+                    break  # stop adding tracks if we already have 50
+            response_data["total"] = min(len(response_data["tracks"]), 50)  # adjust the total to account for removed tracks
+            query_params["limit"] = len(response_data["tracks"])  # adjust the limit to account for removed tracks
+            return JsonResponse(response_data)
+        else:
+            print(f"Request failed with status code {response.status_code}")
+            return HttpResponse("Search failed.")
+    else:
+        return HttpResponse("Invalid request method")
 
 def genres(request):
     return JsonResponse(metal_genres)
 
-# def genre()
 
 # def csrf(request):
 #     return JsonResponse({'csrfToken': get_token(request)})
