@@ -9,9 +9,9 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Genres />} />
-      <Route path='/results' element={<Results />} />
-      <Route path='/genres/:genre' element={<Artists />} />
-      <Route path='/artists/:artist' element={<TopTracks />} />
+      <Route path='/:genre' element={<Results />} />
+      {/* <Route path='/genres/:genre' element={<Artists />} /> */}
+      <Route path='/:artist' element={<TopTracks />} />
     </Routes>
   );
 }
