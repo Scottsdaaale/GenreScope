@@ -1,13 +1,14 @@
 import React from 'react'
-// import Genres from "./Components/Genres"
-// import Artists from "./Components/Artists"
-// import TopTracks from "./Components/TopTracks"
+import Artists from './Artists'
+import Playlists from './Playlists'
+import Songs from './Songs'
 
 function Results() {
   return (
     <div>
-        {/* <Artists/> */}
-        {/* <Genres/> */}
+        <Artists/>
+        <Playlists/>
+        <Songs/>
     </div>
   )
 }
