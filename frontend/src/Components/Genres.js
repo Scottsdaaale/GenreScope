@@ -15,21 +15,41 @@ function Genres() {
 
   function handleClick(genre) {
     const query_params = {
-      genre: genre,
+      genre: genre
     };
-    fetch("/api/artists/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "",
-      },
-      body: JSON.stringify(query_params),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate(`/${genre}`, { state: { data } });
-      });
+  
+    Promise.all([
+      fetch("/api/artists/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "",
+        },
+        body: JSON.stringify(query_params),
+      }),
+      fetch("/api/playlists/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "",
+        },
+        body: JSON.stringify(query_params),
+      }),
+      fetch("/api/tracks/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "",
+        },
+        body: JSON.stringify(query_params),
+      })
+    ])
+      .then((responses) => Promise.all(responses.map((response) => response.json())))
+      .then(([artists, playlists, tracks]) => {
+        console.log({ artists, playlists, tracks });
+        navigate(`/${genre}`, { state: { artists, playlists, tracks } });
+      })
+      .catch((error) => console.log(error));
   }
 
   return (
