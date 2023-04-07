@@ -3,9 +3,9 @@ import { useLocation, useNavigate} from "react-router-dom";
 // import Videos from "./Videos";
 
 
-function Artists() {
-  const location = useLocation();
-  const artists = location.state.data.artists;
+function Artists(props) {
+  const artists = props.data.artists;
+  
   const navigate = useNavigate();
   console.log(artists);
 
@@ -13,7 +13,7 @@ function Artists() {
 
   function handleClick(artist) {
     console.log(artist.id)
-    fetch("/api/tracks/", {
+    fetch("/api/top_tracks/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ function Artists() {
 
   return (
     <div>
-      <div>fuck you</div>
+      <div>Artists:</div>
       {artists.map((artist) => (
         <div key={artist.id}>
           <img src= {artist.image_url} alt={artist.name}/>
