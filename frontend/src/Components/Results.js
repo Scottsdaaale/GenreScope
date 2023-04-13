@@ -7,15 +7,14 @@ import { useLocation, useNavigate} from "react-router-dom";
 
 function Results() {
   const location = useLocation();
-  // console.log(location.state.artists)
-  const { artists, playlists, tracks } = location.state
-  
-  // Render the Artists, Playlists, and Tracks components using the data
+  // const { artists, playlists, tracks } = location.state;
+  console.log(location.state)
+
   return (
     <div>
-      <Artists data={artists} />
-      <Playlists data={playlists} />
-      <Tracks data={tracks} />
+      <Artists data={location.state} />
+      <Playlists data={location.state} />
+      <Tracks data={location.state} />
     </div>
   );
 }
