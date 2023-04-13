@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 
 function TopTracks() {
   const location = useLocation();
-  const tracks = location.state
+  const tracks = location.state;
   console.log(tracks);
 
   return (
     <div>
-      {tracks.map((track) => (
+      {/* {tracks.map((track) => (
         <ul key={track.id}>
           <li>
             {track.name}
@@ -22,7 +22,7 @@ function TopTracks() {
             )}
           </li>
         </ul>
-      ))}
+      ))} */}
     </div>
   );
 }
