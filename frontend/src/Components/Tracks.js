@@ -1,9 +1,8 @@
 import React from "react";
 
-
 function Tracks(props) {
-  const tracks = props.data.tracks;
-  // console.log(tracks);
+  const tracks = props.data.tracks.tracks;
+  console.log(tracks);
   return (
     <div>
       {tracks.map((track) => (
