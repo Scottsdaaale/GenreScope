@@ -46,8 +46,7 @@ function Genres() {
     ])
       .then((responses) => Promise.all(responses.map((response) => response.json())))
       .then(([artists, playlists, tracks]) => {
-        console.log({ artists, playlists, tracks });
-        navigate(`/${genre}`, { state: { artists, playlists, tracks } });
+        navigate(`/${genre}`, { state: { artists: artists, playlists: playlists, tracks: tracks } });
       })
       .catch((error) => console.log(error));
   }

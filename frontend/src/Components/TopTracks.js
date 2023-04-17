@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 function TopTracks() {
-  const location = useLocation();
+  const {location} = useLocation();
   const tracks = location.state;
   console.log(tracks);
 

@@ -2,21 +2,20 @@ import React from 'react'
 import Artists from './Artists'
 import Playlists from './Playlists'
 import Tracks from './Tracks'
-import { useLocation, useNavigate} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 function Results() {
   const location = useLocation();
-  // const { artists, playlists, tracks } = location.state;
-  console.log(location.state)
+  const { artists, playlists, tracks } = location.state;
+  console.log(artists)
 
   return (
     <div>
-      <Artists data={location.state} />
-      <Playlists data={location.state} />
-      <Tracks data={location.state} />
+      <Artists artists={artists} />
+      <Playlists playlists={playlists} />
+      <Tracks tracks={tracks} />
     </div>
   );
 }
-
 export default Results;

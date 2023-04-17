@@ -1,7 +1,7 @@
 import React from "react";
 
 function Playlists(props) {
-  const playlists = props.data.playlists.playlists;
+  const {playlists} = props.data.playlists;
   console.log(playlists);
 
   return (

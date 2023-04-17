@@ -1,7 +1,7 @@
 import React from "react";
 
 function Tracks(props) {
-  const tracks = props.data.tracks.tracks;
+  const {tracks} = props.data.tracks;
   console.log(tracks);
   return (
     <div>
