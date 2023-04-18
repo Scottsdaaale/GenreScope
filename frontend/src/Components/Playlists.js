@@ -1,8 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-function Playlists(props) {
-  const {playlists} = props.data.playlists;
-  console.log(playlists);
+function Playlists() {
+  const playlists = useSelector((state) => state.playlists);
 
   return (
     <div>
@@ -19,3 +19,26 @@ function Playlists(props) {
 }
 
 export default Playlists;
+
+
+// import React from "react";
+
+// function Playlists(props) {
+//   const {playlists} = props.data.playlists;
+//   console.log(playlists);
+
+//   return (
+//     <div>
+//       Playlists:
+//       {playlists.map((playlist) => (
+//         <div key={playlist.id}>
+//           <h3>{playlist.name}</h3>
+//           <img src={playlist.image_url} alt={playlist.name} />
+//           <p>Owner: {playlist.owner}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default Playlists;
