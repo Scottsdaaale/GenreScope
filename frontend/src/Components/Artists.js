@@ -7,9 +7,8 @@ function Artists() {
   // const artists = useSelector((state) => state.spotifyData);
   // console.log(artists)
   const allData = useSelector((state) => state.spotifyData);
-console.log(allData.artists);
-console.log(allData.playlists);
-console.log(allData.tracks);
+console.log(allData);
+
 
   // function handleClick(artist) {
   //   fetch("/api/top_tracks/", {
