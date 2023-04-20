@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { setData } from './dataSlice';
+import { setData } from '../redux/spotifyDataSlice';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
