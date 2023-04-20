@@ -1,30 +1,36 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
-function Artists(props) {
-  const { artists } = props.data.artists;
-  const navigate = useNavigate();
-  console.log(artists)
+function Artists() {
+  // const navigate = useNavigate();
+  // const artists = useSelector((state) => state.spotifyData);
+  // console.log(artists)
+  const allData = useSelector((state) => state.spotifyData);
+console.log(allData.artists);
+console.log(allData.playlists);
+console.log(allData.tracks);
 
-  function handleClick(artist) {
-    fetch("/api/top_tracks/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "",
-      },
-      body: JSON.stringify({ artist_id: artist.id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate(`/${artist.name}`, { state: { data } });
-      });
-  }
-  // console.log(artists.map((artist) => (artist.name)))
+  // function handleClick(artist) {
+  //   fetch("/api/top_tracks/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-CSRFToken": "",
+  //     },
+  //     body: JSON.stringify({ artist_id: artist.id }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       navigate(`/${artist.name}`, { state: { data } });
+  //     });
+  // }
+
+
   return (
     <div>
-      <div>Artists:</div>
+      {/* <div>Artists:</div>
       {artists.map((artist) => (
         <div key={artist.id}>
           <img src={artist.image_url} alt={artist.name} />
@@ -32,7 +38,7 @@ function Artists(props) {
           <p>Popularity: {artist.popularity}</p>
           <p>Genres: {artist.genres}</p>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }
