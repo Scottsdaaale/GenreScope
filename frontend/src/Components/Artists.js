@@ -3,33 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 function Artists() {
-  // const navigate = useNavigate();
-  // const artists = useSelector((state) => state.spotifyData);
-  // console.log(artists)
-  const allData = useSelector((state) => state.spotifyData);
-console.log(allData);
+  const navigate = useNavigate();
+  const {artists} = useSelector(state => state.spotifyData.artists);
+  console.log(artists.artists)
 
+  function handleClick(artist) {
+    fetch("/api/top_tracks/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "",
+      },
+      body: JSON.stringify({ artist_id: artist.id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        navigate(`/${artist.name}`, { state: { data } });
+      });
+  }
 
-  // function handleClick(artist) {
-  //   fetch("/api/top_tracks/", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "X-CSRFToken": "",
-  //     },
-  //     body: JSON.stringify({ artist_id: artist.id }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       navigate(`/${artist.name}`, { state: { data } });
-  //     });
-  // }
-
+  if (!artists.length) {
+    return <div>No artists found</div>;
+  }
 
   return (
     <div>
-      {/* <div>Artists:</div>
+      <div>Artists:</div>
       {artists.map((artist) => (
         <div key={artist.id}>
           <img src={artist.image_url} alt={artist.name} />
@@ -37,10 +37,11 @@ console.log(allData);
           <p>Popularity: {artist.popularity}</p>
           <p>Genres: {artist.genres}</p>
         </div>
-      ))} */}
+      ))}
     </div>
   );
 }
+
 export default Artists;
 
 
