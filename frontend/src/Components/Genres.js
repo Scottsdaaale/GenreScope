@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { setData } from '../redux/spotifyDataSlice';
 
 function Genres() {
   const [genres, setGenres] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch("/api/genres/")
@@ -14,55 +11,17 @@ function Genres() {
       .catch((error) => console.log(error));
   }, []);
 
-  function handleClick(genre) {
-    const query_params = {
-      genre: genre
-    };
-  
-    Promise.all([
-      fetch("/api/artists/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "",
-        },
-        body: JSON.stringify(query_params),
-      }),
-      fetch("/api/playlists/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "",
-        },
-        body: JSON.stringify(query_params),
-      }),
-      fetch("/api/tracks/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": "",
-        },
-        body: JSON.stringify(query_params),
-      })
-    ])
-      .then((responses) => Promise.all(responses.map((response) => response.json())))
-      .then(([artists, playlists, tracks]) => {
-        dispatch(setData({ artists, playlists, tracks }));
-      })
-      .catch((error) => console.log(error));
-  }
-
   return (
-    <div>
-      <div className="genre-list-container">
-        <ul className="genre-list">
-          {genres.map((genre) => (
-            <li className="genre" key={genre}>
-              <Link to={`/${genre}`} onClick={() => handleClick(genre)}>{genre}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="genre-list-container">
+      <ul className="genre-list">
+        {genres.map((genre) => (
+          <li className="genre" key={genre}>
+            <Link to={`/${genre}`}>
+              {genre}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
