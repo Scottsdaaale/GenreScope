@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 
 function Artists() {
   const navigate = useNavigate();
-  const {artists} = useSelector(state => state.spotifyData.artists);
-  console.log(artists.artists)
+  const {artists} = useSelector(state => state.spotifyData);
+  console.log(artists)
 
   function handleClick(artist) {
     fetch("/api/top_tracks/", {
