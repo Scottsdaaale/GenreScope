@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function Tracks() {
-  const tracks = useSelector((state) => state.tracks);
+  const {tracks} = useSelector(state => state.spotifyData);
 
   return (
     <div>

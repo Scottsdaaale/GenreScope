@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function Playlists() {
-  const playlists = useSelector((state) => state.playlists);
-
+  const {playlists} = useSelector(state => state.spotifyData);
+  console.log(playlists)
   return (
     <div>
       Playlists:
