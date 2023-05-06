@@ -16,7 +16,7 @@ function Genres() {
       <ul className="genre-list">
         {genres.map((genre) => (
           <li className="genre" key={genre}>
-            <Link to={`/${genre}`}>
+            <Link to={`/genres/${genre}`}>
               {genre}
             </Link>
           </li>
