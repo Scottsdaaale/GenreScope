@@ -8,8 +8,8 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<Genres />} />
-      <Route path='/:genre' element={<Results />} />
-      <Route path='/:artist' element={<TopTracks />} />
+      <Route path='/genres/:genre' element={<Results />} />
+      <Route path='/:artists/:artist' element={<TopTracks />} />
     </Routes>
   );
 }
