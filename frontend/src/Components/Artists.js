@@ -1,26 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTopTracks } from '../redux/topTracksSlice';
 
 function Artists() {
-  const navigate = useNavigate();
   const {artists} = useSelector(state => state.spotifyData);
-  console.log(artists)
+  const dispatch = useDispatch();
 
   function handleClick(artist) {
-    fetch("/api/top_tracks/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "",
-      },
-      body: JSON.stringify({ artist_id: artist.id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        navigate(`/${artist.name}`, { state: { data } });
-      });
+    dispatch(fetchTopTracks(artist.id));
   }
 
   if (!artists.length) {
@@ -33,7 +21,14 @@ function Artists() {
       {artists.map((artist) => (
         <div key={artist.id}>
           <img src={artist.image_url} alt={artist.name} />
-          <h1 onClick={() => handleClick(artist)}>{artist.name}</h1>
+          <Link
+            to={{
+              pathname: `/artists/${artist.name}`, search: '?'
+            }}
+            onClick={() => handleClick(artist)}
+          >
+            <h1>{artist.name}</h1>
+          </Link>
           <p>Popularity: {artist.popularity}</p>
           <p>Genres: {artist.genres}</p>
         </div>
