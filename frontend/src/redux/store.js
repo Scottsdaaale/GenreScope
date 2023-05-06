@@ -1,5 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import spotifyDataReducer from './spotifyDataSlice';
+import topTracksReducer from './topTracksSlice';
 
 const loggerMiddleware = store => next => action => {
   console.log('Dispatching:', action);
@@ -11,6 +12,7 @@ const loggerMiddleware = store => next => action => {
 const store = configureStore({
   reducer: {
     spotifyData: spotifyDataReducer,
+    topTracksData: topTracksReducer, 
   },
   middleware: getDefaultMiddleware().concat(loggerMiddleware)
 });
