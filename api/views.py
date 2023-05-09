@@ -4,6 +4,8 @@ from django.http import JsonResponse, HttpResponse
 from .metal_genres import metal_genres
 from .oauth import access_token
 from .filter_genres import filtered_genres
+from googleapiclient.discovery import build
+from django.http import JsonResponse
 
 
 
@@ -155,7 +157,6 @@ def search_tracks(request):
 def genres(request):
     return JsonResponse(metal_genres)
 
-
 # def csrf(request):
 #     return JsonResponse({'csrfToken': get_token(request)})
 
@@ -210,3 +211,46 @@ def genres(request):
 #             return HttpResponse("Search failed.")
 #     else:
 #         return HttpResponse("Invalid request method")
+# ______________________________________________YOUTUBE___________________________________________________________
+
+
+def search_youtube(request):
+    if request.method == 'POST':
+        # get genre from request body
+        genre = request.POST.get('genre')
+        
+        # build youtube api client
+        api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        
+        # search for live videos with given genre
+        search_response = youtube.search().list(
+            q=f'{genre} live',
+            type='video',
+            part='id,snippet',
+            videoDefinition='high',
+            maxResults=5
+        ).execute()
+
+        # extract video information from search response
+        videos = []
+        for search_result in search_response.get('items', []):
+            if search_result['id']['kind'] == 'youtube#video':
+                video = {
+                    'id': search_result['id']['videoId'],
+                    'title': search_result['snippet']['title'],
+                    'description': search_result['snippet']['description'],
+                    'thumbnail': search_result['snippet']['thumbnails']['high']['url']
+                }
+                videos.append(video)
+
+        # create response data
+        response_data = {
+            'videos': videos
+        }
+
+        # return response
+        return JsonResponse(response_data)
+
+    else:
+        return HttpResponse('Invalid request method.') 
