@@ -26,7 +26,7 @@ for genre in metal_genres['genres']:
 
 metal_genres['genres'] = cleaned_genres
 
-print(metal_genres)
+# print(metal_genres)
 num_genres = len(metal_genres['genres'])
 
 
@@ -43,4 +43,4 @@ def filter_genres(genres_list, metal_genres):
 
 
 filtered_genres = filter_genres(genres_list, metal_genres)
-print(filtered_genres)
+# print(filtered_genres)

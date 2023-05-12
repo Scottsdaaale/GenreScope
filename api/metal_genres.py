@@ -20,7 +20,7 @@ for genre in metal_genres['genres']:
 
 metal_genres['genres'] = cleaned_genres
 
-print(metal_genres)
+# print(metal_genres)
 num_genres = len(metal_genres['genres'])
 # print(f"Number of genres: {num_genres}")
 
