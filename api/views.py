@@ -214,10 +214,12 @@ def genres(request):
 # ______________________________________________YOUTUBE___________________________________________________________
 
 
-def search_youtube(request):
+def search_youtube_genre(request):
     if request.method == 'POST':
         # get genre from request body
-        genre = request.POST.get('genre')
+        genre = json.loads(request.body)['genre']
+
+        print("Genre before YouTube API request:", genre)
         
         # build youtube api client
         api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'
@@ -225,7 +227,7 @@ def search_youtube(request):
         
         # search for live videos with given genre
         search_response = youtube.search().list(
-            q=f'{genre} live',
+            q=f'{genre}',
             type='video',
             part='id,snippet',
             videoDefinition='high',
@@ -249,8 +251,56 @@ def search_youtube(request):
             'videos': videos
         }
 
+        print("Genre after YouTube API request:", genre)
+
         # return response
         return JsonResponse(response_data)
 
     else:
-        return HttpResponse('Invalid request method.') 
+        return HttpResponse('Invalid request method.')
+
+
+def search_youtube_artist(request):
+    if request.method == 'POST':
+        # Get artist name from request body
+        artist_name = json.loads(request.body)['artistName']
+
+        print("Artist name before YouTube API request:", artist_name)
+        
+        # Build YouTube API client
+        api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'  # Replace with your YouTube API key
+        youtube = build('youtube', 'v3', developerKey=api_key)
+        
+        # Search for live videos related to the artist name
+        search_response = youtube.search().list(
+            q=f'{artist_name}',
+            type='video',
+            part='id,snippet',
+            videoDefinition='high',
+            maxResults=5
+        ).execute()
+
+        # Extract video information from search response
+        videos = []
+        for search_result in search_response.get('items', []):
+            if search_result['id']['kind'] == 'youtube#video':
+                video = {
+                    'id': search_result['id']['videoId'],
+                    'title': search_result['snippet']['title'],
+                    'description': search_result['snippet']['description'],
+                    'thumbnail': search_result['snippet']['thumbnails']['high']['url']
+                }
+                videos.append(video)
+
+        # Create response data
+        response_data = {
+            'videos': videos
+        }
+
+        print("Artist name after YouTube API request:", artist_name)
+
+        # Return response
+        return JsonResponse(response_data)
+
+    else:
+        return HttpResponse('Invalid request method.')
