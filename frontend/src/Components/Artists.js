@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTopTracks } from '../redux/topTracksSlice';
+import { fetchArtistsResultsData } from '../redux/artistsResultsDataSlice';
+import {fetchArtistVideosData} from '../redux/youtubeDataSlice';
+
 
 function Artists() {
-  const {artists} = useSelector(state => state.spotifyData);
+  const {artists} = useSelector(state => state.genreResultsData);
   const dispatch = useDispatch();
 
   function handleClick(artist) {
-    dispatch(fetchTopTracks(artist.id));
+    dispatch(fetchArtistsResultsData({ artistId: artist.id}));
+    dispatch(fetchArtistVideosData({ artistName: artist.name}))
   }
+
 
   if (!artists.length) {
     return <div>No artists found</div>;
