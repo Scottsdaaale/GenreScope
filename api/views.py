@@ -263,7 +263,7 @@ def search_youtube_genre(request):
 def search_youtube_artist(request):
     if request.method == 'POST':
         # Get artist name from request body
-        artist_name = json.loads(request.body)['artistName']
+        artist_name = json.loads(request.body)['artist_name']
 
         print("Artist name before YouTube API request:", artist_name)
         
