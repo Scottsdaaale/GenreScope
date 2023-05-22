@@ -1,15 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import VideoPlayer from "./VideoPlayer";
 
 function TopTracks() {
-  const { tracks } = useSelector((state) => state.topTracksData);
-  const isLoading = useSelector((state) => state.topTracksData.loading);
+  const { tracks } = useSelector((state) => state.artistsResultsData);
+  const isLoadingTopTracks = useSelector(
+    (state) => state.artistsResultsData.loading
+  );
+  const isLoadingVideos = useSelector((state) => state.youtubeData.loading);
+
+  console.log(tracks);
 
   return (
     <div>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
+      {(isLoadingTopTracks || isLoadingVideos) && <div>Loading...</div>}
+      {!isLoadingTopTracks && !isLoadingVideos && (
         <>
           {tracks.map((track) => (
             <ul key={track.id}>
@@ -27,10 +32,11 @@ function TopTracks() {
           {!tracks.length && (
             <p>This artist has no available track previews.</p>
           )}
+          <VideoPlayer />
         </>
       )}
     </div>
   );
 }
 
-export default TopTracks
+export default TopTracks;
