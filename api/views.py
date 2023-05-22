@@ -279,7 +279,7 @@ def search_youtube_artist(request):
             videoDefinition='high',
             maxResults=5
         ).execute()
-
+        print("YouTube API response:", search_response)
         # Extract video information from search response
         videos = []
         for search_result in search_response.get('items', []):
@@ -296,6 +296,7 @@ def search_youtube_artist(request):
         response_data = {
             'videos': videos
         }
+        print("DATA:", response_data)
 
         print("Artist name after YouTube API request:", artist_name)
 
