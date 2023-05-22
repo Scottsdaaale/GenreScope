@@ -1,8 +1,9 @@
 import { configureStore, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import spotifyDataReducer from './spotifyDataSlice';
-import topTracksReducer from './topTracksSlice';
+import genreResultsDataReducer from './genreResultsDataSlice';
+import artistsResultsDataReducer from './artistsResultsDataSlice';
+import youtubeDataReducer from './youtubeDataSlice';
 
 const persistConfig = {
   key: 'root',
@@ -12,8 +13,9 @@ const persistConfig = {
 const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
-    spotifyData: spotifyDataReducer,
-    topTracksData: topTracksReducer,
+    genreResultsData: genreResultsDataReducer,
+    artistsResultsData: artistsResultsDataReducer,
+    youtubeData: youtubeDataReducer,
   })
 );
 
@@ -32,27 +34,3 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 export { store, persistor };
-
-
-
-
-// import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-// import spotifyDataReducer from './spotifyDataSlice';
-// import topTracksReducer from './topTracksSlice';
-
-// const loggerMiddleware = store => next => action => {
-//   console.log('Dispatching:', action);
-//   const result = next(action);
-//   console.log('Next State:', store.getState());
-//   return result;
-// };
-
-// const store = configureStore({
-//   reducer: {
-//     spotifyData: spotifyDataReducer,
-//     topTracksData: topTracksReducer, 
-//   },
-//   middleware: getDefaultMiddleware().concat(loggerMiddleware)
-// });
-
-// export default store;
