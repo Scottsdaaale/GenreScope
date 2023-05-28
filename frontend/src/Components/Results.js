@@ -12,8 +12,8 @@ function Results() {
   const dispatch = useDispatch();
   const { genre } = useParams();
 
-  const isLoading = useSelector(state => state.genreResultsData.loading);
-
+  const isLoadingSpotifyGenreData = useSelector(state => state.genreResultsData.loading);
+  const isLoadingGenreVideos = useSelector(state => state.youtubeData.genreVideos.loading);
   React.useEffect(() => {
     // fetch data on component mount or when genre value changes
     dispatch(fetchData(genre));
@@ -22,7 +22,7 @@ function Results() {
 
   return (
     <div>
-      {isLoading
+      {isLoadingSpotifyGenreData || isLoadingGenreVideos
         ? <div>Loading...</div>
         : (
           <>
