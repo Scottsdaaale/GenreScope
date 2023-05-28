@@ -231,7 +231,7 @@ def search_youtube_genre(request):
             type='video',
             part='id,snippet',
             videoDefinition='high',
-            maxResults=5
+            maxResults=1
         ).execute()
 
         # extract video information from search response
@@ -277,7 +277,7 @@ def search_youtube_artist(request):
             type='video',
             part='id,snippet',
             videoDefinition='high',
-            maxResults=5
+            maxResults=1
         ).execute()
         print("YouTube API response:", search_response)
         # Extract video information from search response
