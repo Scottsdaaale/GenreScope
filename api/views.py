@@ -89,7 +89,7 @@ def search_playlists(request):
             "q": genre,
             "type": "playlist",
             "market": "US",
-            "limit": 10,
+            "limit": 5,
         }
         response = requests.get(
             "https://api.spotify.com/v1/search", headers=headers, params=query_params
@@ -123,7 +123,7 @@ def search_tracks(request):
             "q": genre,
             "type": "track",
             "market": "US",
-            "limit": 10,
+            "limit": 5,
         }
         headers = {"Authorization": f"Bearer {access_token}"}
         response = requests.get(
@@ -143,7 +143,7 @@ def search_tracks(request):
                     "duration_ms": track["duration_ms"],
                 }
                 response_data["tracks"].append(track_data)
-                if len(response_data["tracks"]) == 50:
+                if len(response_data["tracks"]) == 10:
                     break  # stop adding tracks if we already have 50
             response_data["total"] = min(len(response_data["tracks"]), 50)  # adjust the total to account for removed tracks
             query_params["limit"] = len(response_data["tracks"])  # adjust the limit to account for removed tracks
@@ -231,7 +231,7 @@ def search_youtube_genre(request):
             type='video',
             part='id,snippet',
             videoDefinition='high',
-            maxResults=1
+            maxResults=2
         ).execute()
 
         # extract video information from search response
@@ -277,7 +277,7 @@ def search_youtube_artist(request):
             type='video',
             part='id,snippet',
             videoDefinition='high',
-            maxResults=1
+            maxResults=2
         ).execute()
         print("YouTube API response:", search_response)
         # Extract video information from search response
