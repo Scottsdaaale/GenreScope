@@ -51,7 +51,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { selectGenreVideos, selectArtistVideos } from '../redux/youtubeDataSlice'; 
+// import { selectGenreVideos, selectArtistVideos } from '../redux/youtubeDataSlice'; 
 import YouTube from 'react-youtube';
 
 const VideoPlayer = () => {
@@ -59,7 +59,8 @@ const VideoPlayer = () => {
   const genreVideos = useSelector((state) => state.youtubeData.genreVideos);
   const artistVideos = useSelector((state) => state.youtubeData.artistVideos);
   const isGenrePage = location.pathname.includes('/genres');
-
+  console.log('genre video', genreVideos);
+  console.log(artistVideos);
   const videos = isGenrePage ? genreVideos : artistVideos;
 
   console.log(videos);
