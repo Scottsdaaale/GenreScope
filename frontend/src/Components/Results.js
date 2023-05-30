@@ -2,7 +2,7 @@ import React from "react";
 import Artists from "./Artists";
 import Playlists from "./Playlists";
 import Tracks from "./Tracks";
-import Videos from "./Videos";
+import VideoPlayer from "./VideoPlayer";
 import { fetchData } from '../redux/genreResultsDataSlice';
 import {fetchGenreVideosData} from '../redux/youtubeDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +13,10 @@ function Results() {
   const { genre } = useParams();
 
   const isLoadingSpotifyGenreData = useSelector(state => state.genreResultsData.loading);
-  const isLoadingGenreVideos = useSelector(state => state.youtubeData.genreVideos.loading);
+  const isLoadingGenreVideos = useSelector(state => state.youtubeData.loading);
   React.useEffect(() => {
     // fetch data on component mount or when genre value changes
+    console.log(genre)
     dispatch(fetchData(genre));
     dispatch(fetchGenreVideosData(genre));
   }, [dispatch, genre]);
@@ -27,7 +28,7 @@ function Results() {
         : (
           <>
             <Artists />
-            <Videos />
+            <VideoPlayer/>
             <Playlists />
             <Tracks />
           </>
