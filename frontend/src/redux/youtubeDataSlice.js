@@ -62,14 +62,14 @@ export const fetchArtistVideosData = createAsyncThunk(
 // };
 
 const initialState = {
-  // loading: false,
+  loading: false,
   genreVideos: {
     loading: false,
-    data: {},
+    data: [], // Update to empty array
   },
   artistVideos: {
     loading: false,
-    data: {},
+    data: [], // Update to empty array
   },
 };
 
@@ -80,60 +80,29 @@ const youtubeDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchGenreVideosData.pending, (state) => {
-        state.genreVideos.loading = true;
+        state.loading = true;
       })
       .addCase(fetchGenreVideosData.fulfilled, (state, action) => {
-        state.genreVideos.loading = false;
-        state.genreVideos.data = action.payload;
+        state.loading = false;
+        state.genreVideos = action.payload; // Store the fetched videos in genreVideos
       })
       .addCase(fetchGenreVideosData.rejected, (state) => {
-        state.genreVideos.loading = false;
-        state.genreVideos.data = {};
+        state.loading = false;
+        state.genreVideos = {};
       })
       .addCase(fetchArtistVideosData.pending, (state) => {
-        state.artistVideos.loading = true;
+        state.loading = true;
       })
       .addCase(fetchArtistVideosData.fulfilled, (state, action) => {
-        state.artistVideos.loading = false;
-        state.artistVideos.data = action.payload;
+        state.loading = false;
+        state.artistVideos = action.payload;
       })
       .addCase(fetchArtistVideosData.rejected, (state) => {
-        state.artistVideos.loading = false;
-        state.artistVideos.data = {};
+        state.loading = false;
+        state.artistVideos = {};
       });
   },
 });
-
-// const youtubeDataSlice = createSlice({
-//   name: 'youtubeData',
-//   initialState,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchGenreVideosData.pending, (state) => {
-//         state.loading = true;
-//       })
-//       .addCase(fetchGenreVideosData.fulfilled, (state, action) => {
-//         state.loading = false;
-//         state.genreVideos = action.payload; // Store the fetched videos in genreVideos
-//       })
-//       .addCase(fetchGenreVideosData.rejected, (state) => {
-//         state.loading = false;
-//         state.genreVideos = {};
-//       })
-//       .addCase(fetchArtistVideosData.pending, (state) => {
-//         state.loading = true;
-//       })
-//       .addCase(fetchArtistVideosData.fulfilled, (state, action) => {
-//         state.loading = false;
-//         state.artistVideos = action.payload;
-//       })
-//       .addCase(fetchArtistVideosData.rejected, (state) => {
-//         state.loading = false;
-//         state.artistVideos = {};
-//       });
-//   },
-// });
 
 const persistConfig = {
   key: 'youtubeData',
