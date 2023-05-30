@@ -6,6 +6,7 @@ function Genres() {
   const [genres, setGenres] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredGenres, setFilteredGenres] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/genres/")
@@ -13,6 +14,7 @@ function Genres() {
       .then((data) => {
         setGenres(data.genres);
         setFilteredGenres(data.genres);
+        setIsLoading(false); // Mark loading as complete
       })
       .catch((error) => console.log(error));
   }, []);
@@ -29,6 +31,39 @@ function Genres() {
     setSearchQuery(e.target.value);
   };
 
+  if (isLoading) {
+    return <div></div>; // Render a loading indicator or message
+  }
+
+  const getColorStyle = (index) => {
+    // Define an array of colors
+    const colors = [
+      "#17202A",
+      "#1C2833",
+      "#212F3D",
+      "#273746",
+      "#2C3E50",
+      "#566573",
+      "#808B96",
+      "#ABB2B9",
+      "#D5D8DC",
+      "#EAECEE",
+    ];
+
+    // Get the color for the current index
+    const color = colors[index % colors.length];
+
+    return {
+      backgroundColor: color,
+      width: "80%",
+      height: "60%",
+      margin: "auto",
+      borderRadius: "70%",
+      marginTop: "1rem",
+      boxShadow: "0 0 20px rgba(, 0, 0, 0)",
+    };
+  };
+
   return (
     <Container>
       <Form.Group controlId="searchForm">
@@ -41,57 +76,39 @@ function Genres() {
       </Form.Group>
 
       <div className="d-flex flex-wrap justify-content-center">
-        {filteredGenres.map((genre) => (
+        {filteredGenres.map((genre, index) => (
           <Link
             to={`/genres/${genre}`}
             key={genre}
-            style={{ textDecoration: "none" }}
+            style={{ textDecoration: "none", margin: "2rem" }}
           >
             <Card
               border="none"
+              className="genre-cards"
               style={{
                 height: "20rem",
                 width: "15rem",
                 margin: "0.5rem",
-                backgroundColor: "#181818",
-                color: "white",
+                borderRadius: ".5rem",
+                // backgroundColor: "#181818",
+                // color: "white",
                 textDecoration: "none",
+                // transition: "background-color 0.3s ease",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  paddingTop: "100%",
-                  overflow: "hidden",
-                }}
-              >
-                <Card.Img
-                  variant="top"
-                  src="metallica2.png"
-                  alt={genre}
-                  className="rounded-circle"
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "85%", // Adjust the width to make the circle smaller
-                    height: "85%", // Set the height to the same value as the width
-                    objectFit: "cover",
-                  }}
-                />
-                <div
-                style={{
-                  width: "70%",
-                  height: "70%",
-                  borderRadius: "0%",
-                  backgroundColor: "red", // Replace with desired color
-                }}
-              ></div>
-              </div>
+              <div style={getColorStyle(index)}></div>
               <Card.Body>
-                <Card.Title style={{ color: "white" }}>{genre}</Card.Title>
+                <Card.Title
+                  style={{
+                    color: "white",
+                    textAlign: "left",
+                    marginTop: "3rem",
+                  }}
+                >
+                  {genre}
+                </Card.Title>
               </Card.Body>
             </Card>
           </Link>
