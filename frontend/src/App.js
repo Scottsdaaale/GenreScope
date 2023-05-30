@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "#121212" /* Replace with your desired background color */, minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#121212", minHeight: "100vh" }}>
       <Routes>
         <Route path="/" element={<Genres />} />
         <Route path="/genres/:genre" element={<Results />} />
