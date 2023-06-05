@@ -8,12 +8,11 @@ from googleapiclient.discovery import build
 from django.http import JsonResponse
 
 
-
 def search_artists(request):
     if request.method == "POST":
         data = json.loads(request.body)
         genre = data.get("genre")
-        unwanted_genres = filtered_genres['genres'] # list of unwanted genres
+        unwanted_genres = filtered_genres['genres']  # list of unwanted genres
         query_params = {
             "q": genre,
             "type": "artist",
@@ -28,7 +27,8 @@ def search_artists(request):
         if response.status_code == 200:
             results = response.json()
             artists = results["artists"]["items"]
-            response_data = {"total": results["artists"]["total"], "artists": []}
+            response_data = {
+                "total": results["artists"]["total"], "artists": []}
             num_removed = 0  # keep track of how many artists are removed
             for artist in artists:
                 if any(genre in artist["genres"] for genre in unwanted_genres):
@@ -44,14 +44,17 @@ def search_artists(request):
                 response_data["artists"].append(artist_data)
                 if len(response_data["artists"]) == 50:
                     break  # stop adding artists if we already have 50
-            response_data["total"] = min(len(response_data["artists"]), 50)  # adjust the total to account for removed artists
-            query_params["limit"] = len(response_data["artists"]) + num_removed  # adjust the limit to account for removed artists
+            # adjust the total to account for removed artists
+            response_data["total"] = min(len(response_data["artists"]), 50)
+            # adjust the limit to account for removed artists
+            query_params["limit"] = len(response_data["artists"]) + num_removed
             return JsonResponse(response_data)
         else:
             print(f"Request failed with status code {response.status_code}")
             return HttpResponse("Search failed.")
     else:
         return HttpResponse("Invalid request method")
+
 
 def search_top_tracks(request):
     if request.method == "POST":
@@ -75,11 +78,13 @@ def search_top_tracks(request):
                 response_data["tracks"].append(track_data)
             return JsonResponse(response_data)
         else:
-            print(f"Request failed with status code {top_tracks_response.status_code}")
+            print(
+                f"Request failed with status code {top_tracks_response.status_code}")
             return HttpResponse("Top tracks search failed.")
     else:
         return HttpResponse("Invalid request method")
-    
+
+
 def search_playlists(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -89,7 +94,7 @@ def search_playlists(request):
             "q": genre,
             "type": "playlist",
             "market": "US",
-            "limit": 5,
+            "limit": 50,
         }
         response = requests.get(
             "https://api.spotify.com/v1/search", headers=headers, params=query_params
@@ -97,7 +102,8 @@ def search_playlists(request):
         if response.status_code == 200:
             results = response.json()
             playlists = results["playlists"]["items"]
-            response_data = {"total": results["playlists"]["total"], "playlists": []}
+            response_data = {
+                "total": results["playlists"]["total"], "playlists": []}
             for playlist in playlists:
                 playlist_data = {
                     "name": playlist["name"],
@@ -105,6 +111,7 @@ def search_playlists(request):
                     "image_url": playlist["images"][0]["url"] if playlist["images"] else None,
                     "owner": playlist["owner"]["display_name"] if playlist["owner"] else None,
                     "tracks": playlist["tracks"]["total"] if playlist["tracks"] else 0,
+                    "link": playlist["external_urls"]["spotify"] if playlist["external_urls"] else None,
                 }
                 response_data["playlists"].append(playlist_data)
             response_data["total"] = min(len(response_data["playlists"]), 50)
@@ -113,7 +120,8 @@ def search_playlists(request):
             print(f"Request failed with status code {response.status_code}")
             return HttpResponse("Search failed.")
     else:
-        return HttpResponse
+        return HttpResponse("Invalid request method")
+
 
 def search_tracks(request):
     if request.method == "POST":
@@ -123,7 +131,7 @@ def search_tracks(request):
             "q": genre,
             "type": "track",
             "market": "US",
-            "limit": 5,
+            "limit": 50,
         }
         headers = {"Authorization": f"Bearer {access_token}"}
         response = requests.get(
@@ -145,14 +153,17 @@ def search_tracks(request):
                 response_data["tracks"].append(track_data)
                 if len(response_data["tracks"]) == 10:
                     break  # stop adding tracks if we already have 50
-            response_data["total"] = min(len(response_data["tracks"]), 50)  # adjust the total to account for removed tracks
-            query_params["limit"] = len(response_data["tracks"])  # adjust the limit to account for removed tracks
+            # adjust the total to account for removed tracks
+            response_data["total"] = min(len(response_data["tracks"]), 50)
+            # adjust the limit to account for removed tracks
+            query_params["limit"] = len(response_data["tracks"])
             return JsonResponse(response_data)
         else:
             print(f"Request failed with status code {response.status_code}")
             return HttpResponse("Search failed.")
     else:
         return HttpResponse("Invalid request method")
+
 
 def genres(request):
     return JsonResponse(metal_genres)
@@ -220,11 +231,11 @@ def search_youtube_genre(request):
         genre = json.loads(request.body)['genre']
 
         print("Genre before YouTube API request:", genre)
-        
+
         # build youtube api client
         api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'
         youtube = build('youtube', 'v3', developerKey=api_key)
-        
+
         # search for live videos with given genre
         search_response = youtube.search().list(
             q=f'{genre}',
@@ -266,11 +277,12 @@ def search_youtube_artist(request):
         artist_name = json.loads(request.body)['artist_name']
 
         print("Artist name before YouTube API request:", artist_name)
-        
+
         # Build YouTube API client
-        api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'  # Replace with your YouTube API key
+        # Replace with your YouTube API key
+        api_key = 'AIzaSyDOusyMRQKetwboKs0UdfNREresyyLVvmA'
         youtube = build('youtube', 'v3', developerKey=api_key)
-        
+
         # Search for live videos related to the artist name
         search_response = youtube.search().list(
             q=f'{artist_name}',
