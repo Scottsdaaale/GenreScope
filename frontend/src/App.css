@@ -8,3 +8,22 @@
     background-color: #1e1e1e;
   }
 
+  .artist-cards{
+    background-color: #181818;
+    transition: 0.3s ease;
+  }
+
+  .artist-cards:hover{
+    transform: scale(1.01);
+    background-color: #1e1e1e;
+  }
+
+  .playlist-cards{
+    background-color: #181818;
+    transition: 0.3s ease;
+  }
+
+  .playlist-cards:hover{
+    transform: scale(1.01);
+    background-color: #1e1e1e;
+  }
