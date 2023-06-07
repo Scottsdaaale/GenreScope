@@ -149,6 +149,7 @@ def search_tracks(request):
                     "album_id": track["album"]["id"],
                     "artists": [{"name": artist["name"], "id": artist["id"]} for artist in track["artists"]],
                     "duration_ms": track["duration_ms"],
+                    "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None
                 }
                 response_data["tracks"].append(track_data)
                 if len(response_data["tracks"]) == 10:
