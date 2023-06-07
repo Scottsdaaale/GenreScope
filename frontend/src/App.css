@@ -1,9 +1,9 @@
-.genre-cards {
+.cards {
     background-color: #181818;
     transition: 0.3s ease;
 
 }
-.genre-cards:hover {
+.cards:hover {
     transform: scale(1.01);
     background-color: #1e1e1e;
   }
