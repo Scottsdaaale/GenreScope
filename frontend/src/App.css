@@ -6,24 +6,27 @@
 .cards:hover {
     transform: scale(1.01);
     background-color: #1e1e1e;
+    cursor: pointer;
   }
 
-  .artist-cards{
-    background-color: #181818;
-    transition: 0.3s ease;
+  .now-playing {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    color: white;
+    padding: 10px;
+  }
+  
+  .now-playing img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
   }
 
-  .artist-cards:hover{
-    transform: scale(1.01);
-    background-color: #1e1e1e;
-  }
-
-  .playlist-cards{
-    background-color: #181818;
-    transition: 0.3s ease;
-  }
-
-  .playlist-cards:hover{
+  .now-playing:hover{
     transform: scale(1.01);
     background-color: #1e1e1e;
   }
