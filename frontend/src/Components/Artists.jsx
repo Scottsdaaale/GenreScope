@@ -20,9 +20,10 @@ function Artists() {
 
   return (
     <Container>
-      <Row xs={1} sm={2} md={3} lg={4} xl={4} xxl={4} className="g-4">
+      <h1>Artists</h1>
+      <Row>
         {artists.map((artist) => (
-          <Col key={artist.id}>
+          <Col key={artist.id} xs={12} sm={6} md={4} lg={3}>
             <Link
               to={{
                 pathname: `/artists/${artist.name}`,
@@ -31,10 +32,10 @@ function Artists() {
               onClick={() => handleClick(artist)}
               className="text-decoration-none"
             >
-              <Card className="cards" style={{ width: "100%", height: "100%" }}>
-                <div style={{ height: "10rem", overflow: "hidden" }}>
+              <Card className="cards" style={{margin: "1rem", alignContent: "center"}}>
                   <Card.Img
                     variant="top"
+                    // className="rounded-circle overflow-hidden"
                     src={artist.image_url}
                     alt={artist.name}
                     style={{
@@ -43,9 +44,8 @@ function Artists() {
                       height: "100%",
                     }}
                   />
-                </div>
                 <Card.Body style={{ color: "white" }}>
-                  <Card.Title>{artist.name}</Card.Title>
+                  <Card.Title style={{textAlign: "left"}}>{artist.name}</Card.Title>
                 </Card.Body>
               </Card>
             </Link>
