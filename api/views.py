@@ -140,8 +140,24 @@ def search_tracks(request):
         if response.status_code == 200:
             results = response.json()
             tracks = results["tracks"]["items"]
+            track_ids = [track["id"] for track in tracks]
+
+            # Fetch track previews
+            preview_params = {
+                "ids": ",".join(track_ids)
+            }
+            preview_response = requests.get(
+                "https://api.spotify.com/v1/tracks", headers=headers, params=preview_params
+            )
+            if preview_response.status_code == 200:
+                preview_results = preview_response.json()
+                track_previews = preview_results["tracks"]
+            else:
+                print(f"Request failed with status code {preview_response.status_code}")
+                track_previews = []
+
             response_data = {"total": results["tracks"]["total"], "tracks": []}
-            for track in tracks:
+            for track, preview in zip(tracks, track_previews):
                 track_data = {
                     "name": track["name"],
                     "id": track["id"],
@@ -149,7 +165,9 @@ def search_tracks(request):
                     "album_id": track["album"]["id"],
                     "artists": [{"name": artist["name"], "id": artist["id"]} for artist in track["artists"]],
                     "duration_ms": track["duration_ms"],
-                    "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None
+                    "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
+                    "preview_url": preview["preview_url"] if preview else None,
+                    "spotify_url": track["external_urls"]["spotify"]
                 }
                 response_data["tracks"].append(track_data)
                 if len(response_data["tracks"]) == 10:
