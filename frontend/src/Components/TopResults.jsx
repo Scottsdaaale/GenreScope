@@ -29,7 +29,7 @@ function TopResults() {
       {tracks.map((track) => (
         <p key={track.id}>{track.name}</p>
       ))} */}
-      <Tracks />
+      
       <h3 className="text-left">Artists</h3>
       <Row className="card-grid">
         {artists.slice(1, 7).map((artist) => (
