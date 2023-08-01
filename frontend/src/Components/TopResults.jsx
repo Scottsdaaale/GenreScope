@@ -18,23 +18,40 @@ function TopResults() {
         })
       : null;
 
+  // Filter out the most popular artist from the list of artists for the row
+  const artistsForRow = artists.filter(
+    (artist) => artist.id !== highestPopularityArtist?.id
+  );
+
   return (
     <Container>
-      <p>
-        Most Popular Artist:{" "}
-        {highestPopularityArtist ? highestPopularityArtist.name : ""}
-      </p>
+      {highestPopularityArtist && (
+        <div className="top-artist-container">
+          <h3 style={{ textAlign: "left", color: "white" }}>Top Artist</h3>
+          <div className="top-artist">
+            <div>
+              <img
+                src={highestPopularityArtist.image_url}
+                alt={highestPopularityArtist.name}
+                className="top-artist-image"
+              />
+            </div>
+            <div className="title-container">
+              <h4 className="top-artist-title">
+                {highestPopularityArtist.name}
+              </h4>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* <h3>Top Songs</h3>
-      {tracks.map((track) => (
-        <p key={track.id}>{track.name}</p>
-      ))} */}
-      
-      <h3 className="text-left">Artists</h3>
+      <h3 style={{ textAlign: "left", color: "white", marginBottom: "20px" }}>
+        Artists
+      </h3>
       <Row className="card-grid">
-        {artists.slice(1, 7).map((artist) => (
+        {artistsForRow.slice(0, 6).map((artist) => (
           <Col xs={6} sm={4} md={3} lg={2} key={artist.id}>
-            <Card className="cards" style={{margin: "0rem"}}>
+            <Card className="cards" style={{ margin: "0rem" }}>
               <div style={{ height: "200px", overflow: "hidden" }}>
                 <Card.Img
                   variant="top"
@@ -55,11 +72,20 @@ function TopResults() {
         ))}
       </Row>
 
-      <h3>Playlists</h3>
+      <h3
+        style={{
+          textAlign: "left",
+          color: "white",
+          marginBottom: "20px",
+          marginTop: "20px",
+        }}
+      >
+        Playlists
+      </h3>
       <Row className="card-grid">
         {playlists.slice(0, 6).map((playlist) => (
           <Col xs={6} sm={4} md={3} lg={2} key={playlist.id}>
-            <Card className="cards" style={{margin: "0rem"}}>
+            <Card className="cards" style={{ margin: "0rem" }}>
               <Card.Img variant="top" src={playlist.image_url} />
               <Card.Body>
                 <Card.Title
