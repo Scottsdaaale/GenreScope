@@ -83,6 +83,18 @@ def search_top_tracks(request):
             return HttpResponse("Top tracks search failed.")
     else:
         return HttpResponse("Invalid request method")
+    
+
+# def get_artist_shows(request, artist_id):
+#     access_token = "YOUR_SPOTIFY_ACCESS_TOKEN"  # Replace this with the actual access token
+#     api_url = f'https://api.spotify.com/v1/shows/{artist_id}'
+
+#     show_data = get_spotify_data(access_token, api_url)
+
+#     if show_data:
+#         return JsonResponse(show_data)
+#     else:
+#         return JsonResponse({'error': 'Failed to fetch artist shows'}, status=500)
 
 
 def search_playlists(request):
