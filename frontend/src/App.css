@@ -30,3 +30,66 @@
     transform: scale(1.01);
     background-color: #1e1e1e;
   }
+
+  .top-artist-container {
+    margin-bottom: 50px;
+  }
+  
+  .top-artist {
+    background-color: #181818;
+    transition: 0.3s ease;
+
+    padding: 20px;
+    /* text-align: center; */
+    color: white;
+    max-width: 500px;
+    display: flex;
+
+  }
+  
+  .top-artist-image {
+    max-width: 200px;
+    max-height: 200px;
+    /* height: auto; */
+    /* border-radius: 50%; */
+  }
+  
+  .title-container {
+    display: flex;
+    align-items: center; 
+    /* justify-content: center;  */
+    
+  }
+
+  .top-artist-title {
+    margin-top: 10px;
+    padding: 10px;
+  }
+  
+  .top-artist:hover {
+    transform: scale(1.01);
+    background-color: #1e1e1e;
+    cursor: pointer;
+  }
+  /* Custom styles for the Artists and Playlists sections */
+  /* .artist,
+  .playlist {
+    text-align: center;
+    color: white;
+  }
+  
+  .artist-image,
+  .playlist-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .artist-title,
+  .playlist-title {
+    margin-top: 10px;
+  }
+  
+  .playlist-description {
+    margin-top: 5px;
+  } */
