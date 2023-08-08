@@ -16,14 +16,17 @@ function Playlists() {
               rel="noopener noreferrer"
               style={{ textDecoration: "none" }}
             >
-              <Card className="cards" style={{ margin: "1rem" }}>
-                <Card.Img
-                  variant="top"
-                  src={playlist.image_url}
-                  alt={playlist.name}
-                />
+              <Card className="cards" style={{ margin: "1rem", alignContent: "center" }}>
+                <div className="image-container">
+                  <Card.Img
+                    variant="top"
+                    src={playlist.image_url}
+                    alt={playlist.name}
+                    className="card-image"
+                  />
+                </div>
                 <Card.Body style={{ color: "white" }}>
-                  <Card.Title>{playlist.name}</Card.Title>
+                  <Card.Title className="text-truncate">{playlist.name}</Card.Title>
                   {/* <Card.Text>Owner: {playlist.owner}</Card.Text> */}
                 </Card.Body>
               </Card>
