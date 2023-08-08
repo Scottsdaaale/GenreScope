@@ -160,7 +160,7 @@ function Genres() {
             >
               <div style={getColorStyle(index)}></div>
               <Card.Body>
-                <Card.Title
+                <Card.Title className="text-truncate"
                   style={{
                     color: "white",
                     textAlign: "left",
