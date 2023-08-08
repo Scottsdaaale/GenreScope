@@ -20,7 +20,7 @@ function Artists() {
 
   return (
     <Container>
-      <h1>Artists</h1>
+      {/* <h1>Artists</h1> */}
       <Row>
         {artists.map((artist) => (
           <Col key={artist.id} xs={12} sm={6} md={4} lg={3}>
@@ -32,20 +32,19 @@ function Artists() {
               onClick={() => handleClick(artist)}
               className="text-decoration-none"
             >
-              <Card className="cards" style={{margin: "1rem", alignContent: "center"}}>
+              <Card className="cards" style={{ margin: "1rem", alignContent: "center" }}>
+                <div className="image-container">
                   <Card.Img
                     variant="top"
-                    // className="rounded-circle overflow-hidden"
                     src={artist.image_url}
                     alt={artist.name}
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                    }}
+                    className="card-image"
                   />
+                </div>
                 <Card.Body style={{ color: "white" }}>
-                  <Card.Title style={{textAlign: "left"}}>{artist.name}</Card.Title>
+                  <Card.Title className="text-truncate" style={{ textAlign: "left" }}>
+                    {artist.name}
+                  </Card.Title>
                 </Card.Body>
               </Card>
             </Link>
