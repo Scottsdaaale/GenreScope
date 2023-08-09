@@ -68,18 +68,48 @@ def search_top_tracks(request):
         if top_tracks_response.status_code == 200:
             top_tracks_results = top_tracks_response.json()
             top_tracks = top_tracks_results["tracks"]
+
+            # Fetch track details using track IDs
+            track_ids = [track["id"] for track in top_tracks]
+            tracks_details_response = requests.get(
+                f"https://api.spotify.com/v1/tracks",
+                headers=headers,
+                params={"ids": ",".join(track_ids)},
+            )
+            if tracks_details_response.status_code == 200:
+                tracks_details_results = tracks_details_response.json()
+                tracks_details = tracks_details_results["tracks"]
+            else:
+                print(
+                    f"Request failed with status code {tracks_details_response.status_code}"
+                )
+                tracks_details = []
+
             response_data = {"tracks": []}
-            for track in top_tracks:
-                track_data = {
-                    "name": track["name"],
-                    "id": track["id"],
-                    "preview_url": track["preview_url"],
-                }
-                response_data["tracks"].append(track_data)
+            for track, details in zip(top_tracks, tracks_details):
+                if details:  # Ensure there are details available
+                    track_data = {
+                        "name": details["name"],
+                        "id": details["id"],
+                        "album": details["album"]["name"],
+                        "album_id": details["album"]["id"],
+                        "artists": [
+                            {"name": artist["name"], "id": artist["id"]}
+                            for artist in details["artists"]
+                        ],
+                        "duration_ms": details["duration_ms"],
+                        "image": details["album"]["images"][0]["url"]
+                        if details["album"]["images"]
+                        else None,
+                        "preview_url": track["preview_url"],
+                        "spotify_url": details["external_urls"]["spotify"],
+                    }
+                    response_data["tracks"].append(track_data)
             return JsonResponse(response_data)
         else:
             print(
-                f"Request failed with status code {top_tracks_response.status_code}")
+                f"Request failed with status code {top_tracks_response.status_code}"
+            )
             return HttpResponse("Top tracks search failed.")
     else:
         return HttpResponse("Invalid request method")
