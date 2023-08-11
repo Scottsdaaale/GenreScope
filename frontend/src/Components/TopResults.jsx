@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Col, Container, Row } from "react-bootstrap";
@@ -33,37 +33,53 @@ function TopResults() {
     dispatch(fetchArtistsResultsData({ artistId: artist.id }));
     dispatch(fetchArtistVideosData({ artistName: artist.name }));
   };
+
+  // play audio functionality
+  
+  const playNewPreview = (previewUrl, track) => {
+    const audio = new Audio(previewUrl);
+    audio.volume = 0.2;
+    audio.play();
+    setCurrentTrack(audio);
+    setCurrentTrackInfo(track);
+  };
+
+  const playPreview = (previewUrl, track) => {
+    if (currentTrack) {
+      if (currentTrackInfo && currentTrackInfo.id === track.id) {
+        currentTrack.pause();
+        setCurrentTrack(null);
+        setCurrentTrackInfo(null);
+      } else {
+        currentTrack.pause();
+        currentTrack.currentTime = 0;
+        playNewPreview(previewUrl, track);
+      }
+    } else {
+      playNewPreview(previewUrl, track);
+    }
+  };
+
   const openInSpotify = (e) => {
     e.stopPropagation();
     window.open(currentTrackInfo.spotify_url, "_blank");
   };
-  // Ref to access the audio element
-  const audioRef = useRef(null);
 
-  // Function to play or pause audio
-  const playPauseAudio = (previewUrl, track) => {
-    if (!currentTrack) {
-      // If no track is playing, play the clicked track
-      const audio = new Audio(previewUrl);
-      audio.volume = 0.2;
-      audio.play();
-      setCurrentTrack(audio);
-      setCurrentTrackInfo(track);
-    } else if (currentTrack.src === previewUrl) {
-      // If the same track is clicked again, pause the track
-      currentTrack.pause();
-      setCurrentTrack(null);
-      setCurrentTrackInfo(null);
-    } else {
-      // If a different track is clicked, stop the current track and play the clicked track
-      currentTrack.pause();
-      const newAudio = new Audio(previewUrl);
-      newAudio.volume = 0.2;
-      newAudio.play();
-      setCurrentTrack(newAudio);
-      setCurrentTrackInfo(track);
+  useEffect(() => {
+    if (currentTrack && currentTrackInfo) {
+      const endedListener = () => {
+        setCurrentTrack(null);
+        setCurrentTrackInfo(null);
+      };
+
+      currentTrack.addEventListener("ended", endedListener);
+
+      return () => {
+        currentTrack.removeEventListener("ended", endedListener);
+        currentTrack.pause();
+      };
     }
-  };
+  }, [currentTrack, currentTrackInfo]);
 
   return (
     <Container>
@@ -78,16 +94,21 @@ function TopResults() {
                 className="text-decoration-none"
                 onClick={() => handleArtistClick(highestPopularityArtist)}
               >
-                <div className="top-artist">
-                  <div>
+                <div className="top-artist d-flex">
+                  <div className="top-artist-image-container">
                     <img
                       src={highestPopularityArtist.image_url}
                       alt={highestPopularityArtist.name}
                       className="top-artist-image"
                     />
                   </div>
-                  <div className="title-container">
-                    <h4 className="top-artist-title">
+                  <div className="title-container flex-grow-1">
+                    <h4
+                      style={{
+                        margin: "10px 0",
+                        padding: "10px",
+                      }}
+                    >
                       {highestPopularityArtist.name}
                     </h4>
                   </div>
@@ -99,40 +120,42 @@ function TopResults() {
 
         {/* Top Songs */}
         <Col md={6}>
-  <div>
-    <h3 style={{ textAlign: "left", color: "white" }}>Top Songs</h3>
-    <ul className="list-group">
-      {tracks.slice(0, 5).map((track) => (
-        <li
-          className="list-group-item top-track"  // Added class "top-track"
-          key={track.id}
-          onClick={() => playPauseAudio(track.preview_url, track)}
-        >
-          <div className="d-flex align-items-center">
-            <img
-              src={track.image}
-              alt={track.name}
-              className="top-song-image"
-              style={{ width: "50px", height: "50px" }}
-            />
-            <div className="ms-3">
-              <h6 style={{ textAlign: "left", color: "white" }}>{track.name}</h6>
-              <h6 style={{ textAlign: "left", color: "white" }}>
-                {track.artists[0].name}
-              </h6>
-            </div>
+          <div>
+            <h3 style={{ textAlign: "left", color: "white" }}>Top Songs</h3>
+            <ul className="list-group">
+              {tracks.slice(0, 5).map((track) => (
+                <li
+                  className="list-group-item top-track" // Added class "top-track"
+                  key={track.id}
+                  onClick={() => playPreview(track.preview_url, track)}
+                >
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={track.image}
+                      alt={track.name}
+                      className="top-song-image"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                    <div className="ms-3">
+                      <h6 style={{ textAlign: "left", color: "white" }}>
+                        {track.name}
+                      </h6>
+                      <h6 style={{ textAlign: "left", color: "white" }}>
+                        {track.artists[0].name}
+                      </h6>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {/* Hidden audio element */}
+            {/* <audio ref={audioRef} controls style={{ display: "none" }} /> */}
           </div>
-        </li>
-      ))}
-    </ul>
-    {/* Hidden audio element */}
-    <audio ref={audioRef} controls style={{ display: "none" }} />
-  </div>
-</Col>
+        </Col>
       </Row>
 
       {/* Artists and Playlists sections */}
-      <h3 style={{ textAlign: "left", color: "white", marginBottom: "20px" }}>
+      <h3 style={{ textAlign: "left", color: "white", marginBottom: "20px", marginTop: "20px", }}>
         Artists
       </h3>
       <Row className="card-grid">

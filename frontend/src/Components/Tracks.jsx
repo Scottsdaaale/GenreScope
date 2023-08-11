@@ -7,19 +7,27 @@ function Tracks() {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [currentTrackInfo, setCurrentTrackInfo] = useState(null);
 
+  const playNewPreview = (previewUrl, track) => {
+    const audio = new Audio(previewUrl);
+    audio.volume = 0.2;
+    audio.play();
+    setCurrentTrack(audio);
+    setCurrentTrackInfo(track);
+  };
+
   const playPreview = (previewUrl, track) => {
     if (currentTrack) {
-      currentTrack.pause();
-      setCurrentTrack(null);
-      setCurrentTrackInfo(null);
-    }
-
-    if (currentTrack?.src !== previewUrl) {
-      const audio = new Audio(previewUrl);
-      audio.volume = 0.2;
-      audio.play();
-      setCurrentTrack(audio);
-      setCurrentTrackInfo(track);
+      if (currentTrackInfo && currentTrackInfo.id === track.id) {
+        currentTrack.pause();
+        setCurrentTrack(null);
+        setCurrentTrackInfo(null);
+      } else {
+        currentTrack.pause();
+        currentTrack.currentTime = 0;
+        playNewPreview(previewUrl, track);
+      }
+    } else {
+      playNewPreview(previewUrl, track);
     }
   };
 
@@ -29,14 +37,20 @@ function Tracks() {
   };
 
   useEffect(() => {
-    return () => {
-      if (currentTrack) {
-        currentTrack.pause();
+    if (currentTrack && currentTrackInfo) {
+      const endedListener = () => {
         setCurrentTrack(null);
         setCurrentTrackInfo(null);
-      }
-    };
-  }, []);
+      };
+
+      currentTrack.addEventListener("ended", endedListener);
+
+      return () => {
+        currentTrack.removeEventListener("ended", endedListener);
+        currentTrack.pause();
+      };
+    }
+  }, [currentTrack, currentTrackInfo]);
 
   return (
     <Container>
@@ -52,13 +66,12 @@ function Tracks() {
                 <Card.Img variant="top" src={track.image} alt={track.name} />
               )}
               <Card.Body style={{ color: "white" }}>
-                <Card.Title>{track.name}</Card.Title>
-                <Card.Text>
+                <Card.Title className="text-truncate">{track.name}</Card.Title>
+                <Card.Text className="text-truncate">
                   {track.artists.map((artist) => (
                     <span key={artist.id}>{artist.name}</span>
                   ))}
                 </Card.Text>
-                {/* <Card.Text>Album: {track.album}</Card.Text> */}
               </Card.Body>
             </Card>
           </Col>
@@ -85,6 +98,7 @@ function Tracks() {
 }
 
 export default Tracks;
+
 
 // import React from "react";
 
