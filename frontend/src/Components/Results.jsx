@@ -13,6 +13,10 @@ import { useParams } from "react-router-dom";
 function Results() {
   const dispatch = useDispatch();
   const { genre } = useParams();
+  const genreFirstLetterUpcase = genre
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
   const isLoadingSpotifyGenreData = useSelector(
     (state) => state.genreResultsData.loading
@@ -38,10 +42,11 @@ function Results() {
     setActiveTab("allTopResults");
   };
 
+
   return (
     <Container>
       <div className="text-left">
-        <div style={{ paddingTop: "30px", paddingBottom: "50px" }}>
+        <div style={{ paddingTop: "30px", paddingBottom: "40px" }}>
           {/* Mobile hamburger menu */}
           <Nav className="d-md-none justify-content-end mb-2">
             <Dropdown as={Nav.Item}>
@@ -97,7 +102,8 @@ function Results() {
             style={{
               color: "white",
               borderColor: "#121212",
-              backgroundColor: activeTab === "allTopResults" ? "#2a2a2a" : "#121212",
+              backgroundColor:
+                activeTab === "allTopResults" ? "#2a2a2a" : "#121212",
               marginRight: "10px",
               borderRadius: "20px",
             }}
@@ -139,7 +145,8 @@ function Results() {
             style={{
               color: "white",
               borderColor: "#121212",
-              backgroundColor: activeTab === "playlists" ? "#2a2a2a" : "#121212",
+              backgroundColor:
+                activeTab === "playlists" ? "#2a2a2a" : "#121212",
               marginRight: "10px",
               borderRadius: "20px",
             }}
@@ -162,6 +169,7 @@ function Results() {
             Tracks
           </Button>
         </div>
+
         {isLoadingSpotifyGenreData || isLoadingGenreVideos ? (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -173,6 +181,9 @@ function Results() {
           </div>
         ) : (
           <>
+            <h1 style={{ color: "white", paddingBottom: "40px" }}>
+              {genreFirstLetterUpcase}
+            </h1>
             {activeTab === "allTopResults" && <TopResults />}
             {activeTab === "artists" && <Artists />}
             {activeTab === "videos" && <VideoPlayer />}
