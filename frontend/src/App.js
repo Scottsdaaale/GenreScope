@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Genres />} />
         <Route path="/genres/:genre" element={<Results />} />
-        <Route path="/:artists/:artist" element={<TopTracks />} />
+        <Route path="/artists/:artist" element={<TopTracks />} />
       </Routes>
     </div>
   );
