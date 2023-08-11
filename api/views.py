@@ -6,13 +6,12 @@ from .oauth import access_token
 from .filter_genres import filtered_genres
 from googleapiclient.discovery import build
 from django.http import JsonResponse
-
+from .list_of_genres import genres_list, remove_c_genre
 
 def search_artists(request):
     if request.method == "POST":
         data = json.loads(request.body)
         genre = data.get("genre")
-        unwanted_genres = filtered_genres['genres']  # list of unwanted genres
         query_params = {
             "q": genre,
             "type": "artist",
@@ -28,12 +27,10 @@ def search_artists(request):
             results = response.json()
             artists = results["artists"]["items"]
             response_data = {
-                "total": results["artists"]["total"], "artists": []}
-            num_removed = 0  # keep track of how many artists are removed
+                "total": results["artists"]["total"],
+                "artists": []
+            }
             for artist in artists:
-                if any(genre in artist["genres"] for genre in unwanted_genres):
-                    num_removed += 1
-                    continue  # skip artist if they have any unwanted genre
                 artist_data = {
                     "name": artist["name"],
                     "id": artist["id"],
@@ -47,7 +44,7 @@ def search_artists(request):
             # adjust the total to account for removed artists
             response_data["total"] = min(len(response_data["artists"]), 50)
             # adjust the limit to account for removed artists
-            query_params["limit"] = len(response_data["artists"]) + num_removed
+            query_params["limit"] = len(response_data["artists"])
             return JsonResponse(response_data)
         else:
             print(f"Request failed with status code {response.status_code}")
@@ -87,7 +84,7 @@ def search_top_tracks(request):
 
             response_data = {"tracks": []}
             for track, details in zip(top_tracks, tracks_details):
-                if details:  # Ensure there are details available
+                if details and details["preview_url"] is not None:
                     track_data = {
                         "name": details["name"],
                         "id": details["id"],
@@ -200,20 +197,21 @@ def search_tracks(request):
 
             response_data = {"total": results["tracks"]["total"], "tracks": []}
             for track, preview in zip(tracks, track_previews):
-                track_data = {
-                    "name": track["name"],
-                    "id": track["id"],
-                    "album": track["album"]["name"],
-                    "album_id": track["album"]["id"],
-                    "artists": [{"name": artist["name"], "id": artist["id"]} for artist in track["artists"]],
-                    "duration_ms": track["duration_ms"],
-                    "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
-                    "preview_url": preview["preview_url"] if preview else None,
-                    "spotify_url": track["external_urls"]["spotify"]
-                }
-                response_data["tracks"].append(track_data)
-                if len(response_data["tracks"]) == 10:
-                    break  # stop adding tracks if we already have 50
+                if preview and preview["preview_url"] is not None:
+                    track_data = {
+                        "name": track["name"],
+                        "id": track["id"],
+                        "album": track["album"]["name"],
+                        "album_id": track["album"]["id"],
+                        "artists": [{"name": artist["name"], "id": artist["id"]} for artist in track["artists"]],
+                        "duration_ms": track["duration_ms"],
+                        "image": track["album"]["images"][0]["url"] if track["album"]["images"] else None,
+                        "preview_url": preview["preview_url"],
+                        "spotify_url": track["external_urls"]["spotify"]
+                    }
+                    response_data["tracks"].append(track_data)
+                    if len(response_data["tracks"]) == 10:
+                        break  # stop adding tracks if we already have 50
             # adjust the total to account for removed tracks
             response_data["total"] = min(len(response_data["tracks"]), 50)
             # adjust the limit to account for removed tracks
@@ -227,7 +225,9 @@ def search_tracks(request):
 
 
 def genres(request):
-    return JsonResponse(metal_genres)
+    remove_c_genre(genres_list)
+    sorted_genres = sorted(genres_list['genres'])
+    return JsonResponse({'genres': sorted_genres})
 
 # def csrf(request):
 #     return JsonResponse({'csrfToken': get_token(request)})
