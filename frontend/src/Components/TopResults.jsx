@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 import { fetchArtistsResultsData } from "../redux/artistsResultsDataSlice";
 import { fetchArtistVideosData } from "../redux/youtubeDataSlice";
 
@@ -13,12 +12,6 @@ function TopResults() {
     (state) => state.genreResultsData
   );
   const dispatch = useDispatch();
-
-  const { genre } = useParams();
-  const genreFirstLetterUpcase = genre
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
 
   // Find the artist with the highest popularity
   const highestPopularityArtist =
@@ -91,9 +84,6 @@ function TopResults() {
   return (
     <Container>
       <Row>
-        <h1 style={{ color: "white", marginBottom: "50px" }}>
-          {genreFirstLetterUpcase}
-        </h1>
         <Col md={6}>
           {highestPopularityArtist && (
             <div className="top-artist-container">
