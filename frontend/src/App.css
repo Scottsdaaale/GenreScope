@@ -59,38 +59,12 @@
   /* justify-content: center;  */
 }
 
-/* .top-artist-title {
-    margin-top: 10px;
-    padding: 10px;
-  } */
-
 .top-artist:hover {
   transform: scale(1.01);
   background-color: #2a2a2a;
   cursor: pointer;
 }
-/* Custom styles for the Artists and Playlists sections */
-/* .artist,
-  .playlist {
-    text-align: center;
-    color: white;
-  }
-  
-  .artist-image,
-  .playlist-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-  }
-  
-  .artist-title,
-  .playlist-title {
-    margin-top: 10px;
-  }
-  
-  .playlist-description {
-    margin-top: 5px;
-  } */
+
 
 .image-container {
   position: relative;
