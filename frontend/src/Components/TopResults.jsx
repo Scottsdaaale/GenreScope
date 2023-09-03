@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { fetchArtistsResultsData } from "../redux/artistsResultsDataSlice";
 import { fetchArtistVideosData } from "../redux/youtubeDataSlice";
 
@@ -12,6 +13,12 @@ function TopResults() {
     (state) => state.genreResultsData
   );
   const dispatch = useDispatch();
+
+  const { genre } = useParams();
+  const genreFirstLetterUpcase = genre
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
   // Find the artist with the highest popularity
   const highestPopularityArtist =
@@ -35,7 +42,7 @@ function TopResults() {
   };
 
   // play audio functionality
-  
+
   const playNewPreview = (previewUrl, track) => {
     const audio = new Audio(previewUrl);
     audio.volume = 0.2;
@@ -84,7 +91,9 @@ function TopResults() {
   return (
     <Container>
       <Row>
-        {/* Top Artist */}
+        <h1 style={{ color: "white", marginBottom: "50px" }}>
+          {genreFirstLetterUpcase}
+        </h1>
         <Col md={6}>
           {highestPopularityArtist && (
             <div className="top-artist-container">
@@ -155,7 +164,14 @@ function TopResults() {
       </Row>
 
       {/* Artists and Playlists sections */}
-      <h3 style={{ textAlign: "left", color: "white", marginBottom: "20px", marginTop: "20px", }}>
+      <h3
+        style={{
+          textAlign: "left",
+          color: "white",
+          marginBottom: "20px",
+          marginTop: "20px",
+        }}
+      >
         Artists
       </h3>
       <Row className="card-grid">
