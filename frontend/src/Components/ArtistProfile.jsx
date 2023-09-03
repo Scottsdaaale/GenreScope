@@ -4,6 +4,7 @@ import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import VideoPlayer from "./VideoPlayer";
 
 function ArtistProfile() {
   const { tracks, loading: isLoadingTopTracks } = useSelector(
@@ -109,6 +110,8 @@ function ArtistProfile() {
         >
           {tracks[0].artists[0].name}
         </h1>
+        <h3 style={{ textAlign: "left", color: "white" }}>Tracks</h3>
+
         {tracks.map((track) => (
           <Col key={track.id} xs={12} sm={6} md={4} lg={3}>
             <Card
@@ -134,6 +137,9 @@ function ArtistProfile() {
             </Card>
           </Col>
         ))}
+                   <h3 style={{ textAlign: "left", color: "white" }}>Videos</h3>
+
+        <VideoPlayer/>
       </Row>
       {currentTrackInfo && (
         <div
