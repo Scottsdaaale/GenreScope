@@ -8,15 +8,14 @@ import TopResults from "./TopResults";
 import { fetchData } from "../redux/genreResultsDataSlice";
 import { fetchGenreVideosData } from "../redux/youtubeDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Results() {
   const dispatch = useDispatch();
   const { genre } = useParams();
-  const genreFirstLetterUpcase = genre
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
+  const navigate = useNavigate();
 
   const isLoadingSpotifyGenreData = useSelector(
     (state) => state.genreResultsData.loading
@@ -42,9 +41,15 @@ function Results() {
     setActiveTab("allTopResults");
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
 
   return (
-    <Container>
+    <Container style={{ paddingTop: "10px", paddingBottom: "10px" }}>
+      <div onClick={handleBackClick} className="back-button-container">
+        <FontAwesomeIcon icon={faArrowLeft} className="back-button-icon" />
+      </div>
       <div className="text-left">
         <div style={{ paddingTop: "30px", paddingBottom: "40px" }}>
           {/* Mobile hamburger menu */}
@@ -173,17 +178,12 @@ function Results() {
         {isLoadingSpotifyGenreData || isLoadingGenreVideos ? (
           <div
             className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: "70vh" }}
+            style={{ minHeight: "80vh" }}
           >
-            <Spinner animation="border" role="status" variant="light">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <Spinner animation="border" role="status" variant="light"></Spinner>
           </div>
         ) : (
           <>
-            <h1 style={{ color: "white", paddingBottom: "40px" }}>
-              {genreFirstLetterUpcase}
-            </h1>
             {activeTab === "allTopResults" && <TopResults />}
             {activeTab === "artists" && <Artists />}
             {activeTab === "videos" && <VideoPlayer />}
