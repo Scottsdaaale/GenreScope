@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Card, Container, Form } from "react-bootstrap";
+import { Card, Container, Form, Spinner } from "react-bootstrap";
 
 function Genres() {
   const [genres, setGenres] = useState([]);
@@ -32,7 +32,14 @@ function Genres() {
   };
 
   if (isLoading) {
-    return <div></div>; // Render a loading indicator or message
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <Spinner animation="border" role="status" variant="light"></Spinner>
+      </div>
+    ); 
   }
 
   const getColorStyle = (index) => {
@@ -121,7 +128,7 @@ function Genres() {
 
   return (
     <Container>
-      <Form.Group controlId="searchForm">
+      <Form.Group controlId="searchForm" style={{ padding: "30px" }}>
         <Form.Control
           type="text"
           placeholder="Search genres..."
@@ -160,7 +167,8 @@ function Genres() {
             >
               <div style={getColorStyle(index)}></div>
               <Card.Body>
-                <Card.Title className="text-truncate"
+                <Card.Title
+                  className="text-truncate"
                   style={{
                     color: "white",
                     textAlign: "left",
