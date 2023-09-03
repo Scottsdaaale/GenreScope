@@ -1,7 +1,7 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-// import { selectGenreVideos, selectArtistVideos } from '../redux/youtubeDataSlice';
+import { useLocation, useParams } from "react-router-dom";
 import YouTube from "react-youtube";
 
 const VideoPlayer = () => {
@@ -9,11 +9,13 @@ const VideoPlayer = () => {
   const genreVideos = useSelector((state) => state.youtubeData.genreVideos);
   const artistVideos = useSelector((state) => state.youtubeData.artistVideos);
   const isGenrePage = location.pathname.includes("/genres");
-  console.log("genre video", genreVideos);
-  console.log(artistVideos);
-  const videos = isGenrePage ? genreVideos : artistVideos;
+  const videos = isGenrePage ? genreVideos.data : artistVideos.data; // Updated to access the "data" property
 
-  console.log(videos);
+  const { genre } = useParams();
+  const genreFirstLetterUpcase = genre
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
   const opts = {
     height: "315",
@@ -29,18 +31,35 @@ const VideoPlayer = () => {
     },
   };
 
+  const centerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    color: "white",
+  };
+
   return (
-    <div>
-      <div>Videos:</div>
-      {videos.map((video) => (
-        <YouTube
-          key={video.id}
-          videoId={video.id}
-          opts={opts}
-          onReady={(event) => event.target.pauseVideo()}
-        />
-      ))}
-    </div>
+    <Container>
+      <h1 style={{ color: "white", marginBottom: "50px" }}>
+        {genreFirstLetterUpcase}
+      </h1>
+      <div className="video-container" style={centerStyle}>
+        {Array.isArray(videos) && videos.length === 0 ? (
+          // Display a message when there are no videos
+          <p>Youtube API call quota exceeded :(</p>
+        ) : (
+          videos.map((video) => (
+            <YouTube
+              key={video.id}
+              videoId={video.id}
+              opts={opts}
+              onReady={(event) => event.target.pauseVideo()}
+            />
+          ))
+        )}
+      </div>
+    </Container>
   );
 };
 
