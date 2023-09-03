@@ -2,11 +2,12 @@ import React from 'react'
 import VideoPlayer from './VideoPlayer'
 
 function Videos() {
+
   return (
     <div>
-      <VideoPlayer/>
+      <VideoPlayer />
     </div>
   )
 }
 
-export default Videos
+export default Videos;
