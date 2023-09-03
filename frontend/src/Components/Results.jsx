@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Button, Spinner, Dropdown, Nav } from "react-bootstrap";
 import Artists from "./Artists";
-import VideoPlayer from "./VideoPlayer";
+import Videos from "./Videos";
 import Playlists from "./Playlists";
 import Tracks from "./Tracks";
 import TopResults from "./TopResults";
@@ -11,11 +11,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Results() {
   const dispatch = useDispatch();
   const { genre } = useParams();
   const navigate = useNavigate();
+
+  const genreFirstLetterUpcase = genre
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
   const isLoadingSpotifyGenreData = useSelector(
     (state) => state.genreResultsData.loading
@@ -54,49 +61,85 @@ function Results() {
         <div style={{ paddingTop: "30px", paddingBottom: "40px" }}>
           {/* Mobile hamburger menu */}
           <Nav className="d-md-none justify-content-end mb-2">
-            <Dropdown as={Nav.Item}>
-              <Dropdown.Toggle
-                as={Nav.Link}
-                variant="link"
-                id="mobile-tab-dropdown"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                Menu
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  active={activeTab === "allTopResults"}
-                  onClick={handleAllTopResultsClick}
-                >
-                  Top Results
-                </Dropdown.Item>
-                <Dropdown.Item
-                  active={activeTab === "artists"}
-                  onClick={() => handleTabClick("artists")}
-                >
-                  Artists
-                </Dropdown.Item>
-                <Dropdown.Item
-                  active={activeTab === "videos"}
-                  onClick={() => handleTabClick("videos")}
-                >
-                  Videos
-                </Dropdown.Item>
-                <Dropdown.Item
-                  active={activeTab === "playlists"}
-                  onClick={() => handleTabClick("playlists")}
-                >
-                  Playlists
-                </Dropdown.Item>
-                <Dropdown.Item
-                  active={activeTab === "tracks"}
-                  onClick={() => handleTabClick("tracks")}
-                >
-                  Tracks
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav>
+      <Dropdown as={Nav.Item}>
+        <Dropdown.Toggle
+          as={Nav.Link}
+          variant="link"
+          id="mobile-tab-dropdown"
+          style={{
+            color: "white",
+            textDecoration: "none",
+            border: "none",
+            boxShadow: "none",
+            background: "transparent",
+          }}
+        >
+          <style>
+            {`
+              /* Hide the dropdown caret */
+              #mobile-tab-dropdown.dropdown-toggle::after {
+                display: none !important;
+              }
+
+              /* Style the dropdown menu */
+              .custom-dropdown-menu {
+                background-color: #181818; /* Background color */
+                color: white; /* Text color */
+                border: none; /* Remove border */
+                width: 100vw; /* Stretch the width across the screen */
+              }
+
+              .custom-dropdown-item {
+                color: white; /* Text color for items */
+              }
+
+              /* Style the active item */
+              .custom-dropdown-item.active {
+                background-color: #2a2a2a; /* Background color for the selected item */
+              }
+            `}
+          </style>
+          <FontAwesomeIcon icon={faBars} /> {/* Hamburger icon */}
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="custom-dropdown-menu">
+          <Dropdown.Item
+            className="custom-dropdown-item"
+            active={activeTab === "allTopResults"}
+            onClick={handleAllTopResultsClick}
+          >
+            Top Results
+          </Dropdown.Item>
+          <Dropdown.Item
+            className="custom-dropdown-item"
+            active={activeTab === "artists"}
+            onClick={() => handleTabClick("artists")}
+          >
+            Artists
+          </Dropdown.Item>
+          <Dropdown.Item
+            className="custom-dropdown-item"
+            active={activeTab === "videos"}
+            onClick={() => handleTabClick("videos")}
+          >
+            Videos
+          </Dropdown.Item>
+          <Dropdown.Item
+            className="custom-dropdown-item"
+            active={activeTab === "playlists"}
+            onClick={() => handleTabClick("playlists")}
+          >
+            Playlists
+          </Dropdown.Item>
+          <Dropdown.Item
+            className="custom-dropdown-item"
+            active={activeTab === "tracks"}
+            onClick={() => handleTabClick("tracks")}
+          >
+            Tracks
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Nav>
 
           {/* Desktop and tablet buttons */}
           <Button
@@ -183,13 +226,18 @@ function Results() {
             <Spinner animation="border" role="status" variant="light"></Spinner>
           </div>
         ) : (
-          <>
-            {activeTab === "allTopResults" && <TopResults />}
-            {activeTab === "artists" && <Artists />}
-            {activeTab === "videos" && <VideoPlayer />}
-            {activeTab === "playlists" && <Playlists />}
-            {activeTab === "tracks" && <Tracks />}
-          </>
+          <div>
+            <h1 style={{ color: "white", marginBottom: "50px" }}>
+              {genreFirstLetterUpcase}
+            </h1>
+            <>
+              {activeTab === "allTopResults" && <TopResults />}
+              {activeTab === "artists" && <Artists />}
+              {activeTab === "videos" && <Videos />}
+              {activeTab === "playlists" && <Playlists />}
+              {activeTab === "tracks" && <Tracks />}
+            </>
+          </div>
         )}
       </div>
     </Container>
