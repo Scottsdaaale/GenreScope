@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+
 import { Card, Col, Container, Row } from "react-bootstrap";
 
 function Tracks() {
   const { tracks } = useSelector((state) => state.genreResultsData);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [currentTrackInfo, setCurrentTrackInfo] = useState(null);
-
-  const { genre } = useParams();
-  const genreFirstLetterUpcase = genre
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
 
   const playNewPreview = (previewUrl, track) => {
     const audio = new Audio(previewUrl);
@@ -62,9 +56,6 @@ function Tracks() {
   return (
     <Container>
       <Row>
-        <h1 style={{ color: "white", marginBottom: "50px" }}>
-          {genreFirstLetterUpcase}
-        </h1>
         {tracks.map((track) => (
           <Col key={track.id} xs={12} sm={6} md={4} lg={3}>
             <Card

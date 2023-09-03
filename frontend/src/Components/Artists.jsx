@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArtistsResultsData } from "../redux/artistsResultsDataSlice";
 import { fetchArtistVideosData } from "../redux/youtubeDataSlice";
@@ -8,12 +8,6 @@ import { Card, Container, Col, Row } from "react-bootstrap";
 function Artists() {
   const { artists } = useSelector((state) => state.genreResultsData);
   const dispatch = useDispatch();
-
-  const { genre } = useParams();
-  const genreFirstLetterUpcase = genre
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
 
   function handleClick(artist) {
     dispatch(fetchArtistsResultsData({ artistId: artist.id }));
@@ -27,9 +21,6 @@ function Artists() {
   return (
     <Container>
       <Row>
-        <h1 style={{ color: "white", marginBottom: "50px" }}>
-          {genreFirstLetterUpcase}
-        </h1>
         {artists.map((artist) => (
           <Col key={artist.id} xs={12} sm={6} md={4} lg={3}>
             <Link

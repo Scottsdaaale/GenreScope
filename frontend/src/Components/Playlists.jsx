@@ -1,22 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Card, Container, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 
 function Playlists() {
   const { playlists } = useSelector((state) => state.genreResultsData);
-  const { genre } = useParams();
-  const genreFirstLetterUpcase = genre
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
 
   return (
     <Container>
       <Row>
-        <h1 style={{ color: "white", marginBottom: "50px" }}>
-          {genreFirstLetterUpcase}
-        </h1>
         {playlists.map((playlist) => (
           <Col key={playlist.id} xs={12} sm={6} md={4} lg={3}>
             <a
