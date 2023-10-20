@@ -6,7 +6,7 @@ import ArtistProfile from "./Components/ArtistProfile";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "#121212", minHeight: "100vh" }}>
+    <div>
       <Routes>
         <Route path="/" element={<Genres />} />
         <Route path="/genres/:genre" element={<Results />} />
