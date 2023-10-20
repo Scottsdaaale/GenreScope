@@ -6,3 +6,5 @@ list_of_genres.py
 remove.py
 sorted_genres.txt
 Project Docs
+*.pyc
+.vscode
